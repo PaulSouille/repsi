@@ -23,5 +23,6 @@ Things you may want to cover:
 
 * ...
 
-Liens du tuto
-https://scotch.io/tutorials/build-a-restful-json-api-with-rails-5-part-one
+Pour générer la documentation : 
+rake rswag:specs:swaggerize
+ ( fichiers à modifier dans /spec/integration/)
