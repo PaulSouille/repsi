@@ -1,29 +1,48 @@
+require 'aws-sdk-s3'
+require 'securerandom'
+require 'json'
+Aws.config.update(
+    endpoint: 'https://repsi.s3.fr-par.scw.cloud',
+    access_key_id: 'SCW17TGYHDAX4VR63WFJ',
+    secret_access_key: '3fd25d1f-4048-40b5-9a19-afd260bdc574',
+    force_path_style: true,
+    region: 'fr-par'
+)
+s3 = Aws::S3::Resource.new(region: 'fr-par')
+
 class ImagesController < ApplicationController
-  before_action :set_image, only: [:show, :update, :destroy]
+  before_action  only: [:show, :update, :destroy]
 
   # GET /images
   def index
-    #@images = Image.all
-    # https://www.codementor.io/franzejr/creating-simple-api-with-rails-du108148l
-    s3 = Aws::S3::Client.new(
-    )
-    render json: {test:"test"}
+    s3 = Aws::S3::Resource.new
+    bucket_name = 'hello'
+    objects = []
+    last_key = nil
+    begin
+      new_objects = Aws::S3::Bucket.object_id(bucket_name, :marker => last_key)
+      objects    += new_objects
+      last_key    = objects.last.key
+    end while new_objects.size > 0
+    render json: {test:'test'}
   end
 
   # GET /images/1
   def show
-    render json: @image
+    puts params
+    render json:{test:params['id']}
   end
 
   # POST /images
   def create
-    @image = Image.new(image_params)
-
-    if @image.save
-      render json: @image, status: :created, location: @image
-    else
-      render json: @image.errors, status: :unprocessable_entity
-    end
+    bucket_name = 'hello'
+    media_base64 = params['base64']
+    body = Base64.decode64(media_base64.split(',')[1])
+    key = SecureRandom.uuid
+    extension = '.jpg'
+    s3 = Aws::S3::Resource.new
+    s3.bucket(bucket_name).object("#{key}#{extension}").put(body: body, acl: 'public-read', content_type: 'image/jpeg', content_encoding: 'base64')
+    render json: {object_key: "#{key}#{extension}"}
   end
 
   # PATCH/PUT /images/1

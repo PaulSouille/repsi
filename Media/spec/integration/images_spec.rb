@@ -10,15 +10,13 @@ describe 'Media API' do
       parameter name: :media, in: :body, schema: {
         type: :object,
         properties: {
-          name: { type: :string },
-          photo_url: { type: :string },
-          status: { type: :string }
+          base64: { type: :string },
         },
         required: [ 'name', 'status' ]
       }
 
       response '201', 'media created' do
-        let(:media) { { name: 'cat.gif', status: 'available' } }
+        let(:media) { { name: 'image.gif', status: 'available' } }
         run_test!
       end
 
@@ -50,7 +48,7 @@ describe 'Media API' do
         run_test!
       end
 
-      response '404', 'pet not found' do
+      response '404', 'image not found' do
         let(:id) { 'invalid' }
         run_test!
       end

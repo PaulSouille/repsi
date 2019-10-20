@@ -21,13 +21,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "photo_url": {
-                  "type": "string"
-                },
-                "status": {
+                "base64": {
                   "type": "string"
                 }
               },
@@ -92,7 +86,7 @@
             }
           },
           "404": {
-            "description": "pet not found"
+            "description": "image not found"
           }
         }
       }
