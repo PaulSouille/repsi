@@ -1,18 +1,11 @@
 require 'aws-sdk-s3'
 require 'securerandom'
 require 'json'
-Aws.config.update(
-    endpoint: 'https://repsi.s3.fr-par.scw.cloud',
-    access_key_id: 'SCW17TGYHDAX4VR63WFJ',
-    secret_access_key: '3fd25d1f-4048-40b5-9a19-afd260bdc574',
-    force_path_style: true,
-    region: 'fr-par'
-)
+
 s3 = Aws::S3::Resource.new(region: 'fr-par')
 
 class ImagesController < ApplicationController
   before_action  only: [:show, :update, :destroy]
-
   # GET /images
   def index
     s3 = Aws::S3::Resource.new
@@ -35,13 +28,14 @@ class ImagesController < ApplicationController
 
   # POST /images
   def create
-    bucket_name = 'hello'
+    image_params_post()
+    bucket_name = ENV['s3_bucket_name']
     media_base64 = params['base64']
     body = Base64.decode64(media_base64.split(',')[1])
     key = SecureRandom.uuid
     extension = '.jpg'
     s3 = Aws::S3::Resource.new
-    s3.bucket(bucket_name).object("#{key}#{extension}").put(body: body, acl: 'public-read', content_type: 'image/jpeg', content_encoding: 'base64')
+    s3.bucket(bucket_name).object("#{key}#{extension}").put(body: body, acl: 'public-read', content_type: 'image/jpeg', content_encoding: 'base64', metadata:{'test':'test'})
     render json: {object_key: "#{key}#{extension}"}
   end
 
@@ -66,7 +60,7 @@ class ImagesController < ApplicationController
     end
 
     # Only allow a trusted parameter "white list" through.
-    def image_params
-      params.require(:image).permit(:title, :content, :url, :id)
+    def image_params_post
+      params.require(:base64)
     end
 end
