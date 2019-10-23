@@ -5,7 +5,7 @@
     "version": "v1"
   },
   "paths": {
-    "/api/v1/medias": {
+    "medias": {
       "post": {
         "summary": "Creates a media",
         "tags": [
@@ -16,7 +16,7 @@
         ],
         "parameters": [
           {
-            "name": "media",
+            "name": "base64",
             "in": "body",
             "schema": {
               "type": "object",
@@ -33,23 +33,23 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "media created"
+          "200": {
+            "description": "{\n        \"object_key\": \"aaa3a4f1-c7a7-442d-864d-b7a3dd96fac3\",\n        \"extension\": \".jpeg\"\n        }"
           },
-          "422": {
-            "description": "invalid request"
+          "400": {
+            "description": "\"error\": \"missing base64 element\""
           }
         }
       }
     },
-    "/api/v1/medias/{id}": {
+    "medias/{id}?extension={extension}": {
       "get": {
         "summary": "Retrieves a media",
         "tags": [
           "Medias"
         ],
         "produces": [
-          "application/json"
+          "file"
         ],
         "parameters": [
           {
@@ -57,36 +57,20 @@
             "in": "path",
             "type": "string",
             "required": true
+          },
+          {
+            "name": "extension",
+            "in": "path",
+            "type": "string",
+            "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "name found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer"
-                },
-                "name": {
-                  "type": "string"
-                },
-                "photo_url": {
-                  "type": "string"
-                },
-                "status": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "id",
-                "name",
-                "status"
-              ]
-            }
+            "description": "file"
           },
-          "404": {
-            "description": "image not found"
+          "400": {
+            "description": "\"error\": \"missing extension element\""
           }
         }
       }
