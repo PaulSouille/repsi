@@ -1,13 +1,33 @@
-FROM ruby:2.5
-RUN mkdir /myapp
-WORKDIR /myapp
-COPY Gemfile /myapp/Gemfile
-COPY Gemfile.lock /myapp/Gemfile.lock
-RUN bundle install
-COPY . /myapp
+FROM node:10-alpine AS build
 
-# Add a script to be executed every time the container starts.
+RUN apk update && apk add git
+
+RUN mkdir -p /app
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+# -----------------
+
+FROM node:10-alpine
+
+RUN mkdir -p /app
+
+WORKDIR /app
+
+COPY --from=build ./app/dist/login-demo .
+
+RUN npm install -g live-server
+
+ENV NODE_ENV=production
+
 EXPOSE 3000
 
-# Start the main process.
-CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD ["live-server", "--port=3000", "--host=0.0.0.0", "--no-browser", "--entry-file=index.html"]
