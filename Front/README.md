@@ -70,3 +70,6 @@ If you have found a bug or if you have a feature request, please report them at 
 ## License
 
 This project is licensed under the MIT license. See the [LICENSE](../LICENSE) file for more info.
+
+
+https://medium.com/@fidelisclayton/system-environment-variables-in-angular-1f4a922c7b4c

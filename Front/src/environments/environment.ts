@@ -1,9 +1,12 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+import * as config from '../../auth_config.json';
 
 export const environment = {
-  production: false
+  production: true,
+  auth_client_id: config.clientId,
+  auth_domain: config.domain
 };
 
 /*

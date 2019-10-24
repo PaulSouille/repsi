@@ -22,12 +22,12 @@ RUN mkdir -p /app
 
 WORKDIR /app
 
-COPY --from=build ./app/dist/login-demo .
+COPY --from=build ./app/dist/repsi .
 
 RUN npm install -g live-server
 
 ENV NODE_ENV=production
 
-EXPOSE 3000
+EXPOSE 80
 
-CMD ["live-server", "--port=3000", "--host=0.0.0.0", "--no-browser", "--entry-file=index.html"]
+CMD ["live-server", "--port=80", "--host=0.0.0.0", "--no-browser", "--entry-file=index.html"]
