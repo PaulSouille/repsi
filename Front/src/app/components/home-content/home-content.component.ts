@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgModule } from '@angular/core';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from '../../auth/auth.service';
+
 
 @Component({
   selector: 'app-home-content',
@@ -9,7 +11,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons';
 export class HomeContentComponent implements OnInit {
   faLink = faLink;
 
-  constructor() { }
+  constructor(public auth: AuthService) { }
 
   ngOnInit() {
   }

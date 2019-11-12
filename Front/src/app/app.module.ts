@@ -15,6 +15,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HomeContentComponent } from './components/home-content/home-content.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatCardModule } from '@angular/material';
 
 export function hljsLanguages() {
   return [{ name: 'json', func: json }];
@@ -39,7 +40,8 @@ export function hljsLanguages() {
       languages: hljsLanguages
     }),
     FontAwesomeModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
