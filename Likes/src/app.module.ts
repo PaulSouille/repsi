@@ -8,7 +8,7 @@ import {
 
 const cassandraOptions: ExpressCassandraModuleOptions = {
   clientOptions: {
-    contactPoints: ['51.15.143.4'],
+    contactPoints: [''],
     keyspace: 'users',
     protocolOptions: {
       port: 9043,
@@ -16,7 +16,7 @@ const cassandraOptions: ExpressCassandraModuleOptions = {
     queryOptions: {
       consistency: 1,
     },
-    authProvider: new auth.PlainTextAuthProvider('cassandra', 'ZF5d2CZFpnne9aHz'),
+    authProvider: new auth.PlainTextAuthProvider('cassandra', 'password'),
   },
   ormOptions: {
     createKeyspace: true,
