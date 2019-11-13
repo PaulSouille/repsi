@@ -1,4 +1,5 @@
-
-export class Likes {
-
-}
+export interface Like {
+    parentid: string;
+    userid: string;
+    id?: string;
+};

@@ -1,24 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { LikesEntity } from './likes.entity';
-import { Repository, InjectRepository } from '@iaminfinity/express-cassandra';
-import { Observable } from 'rxjs';
+import * as models from '@iaminfinity/express-cassandra';
+import { Like } from './likes';
 
 @Injectable()
 export class LikesService {
 
   constructor(
 
-    @InjectRepository(LikesEntity)
-    private readonly likesRepository: Repository<LikesEntity>,
+    @models.InjectRepository(LikesEntity)
+    private readonly likesRepository: models.Repository<LikesEntity>,
   ) {}
 
-    public countEntity(parentId: string): Observable<LikesEntity> {
-      return this.likesRepository.findOne({parentId});
+    public async countEntity(parentid: string): Promise<number> {
+      const data = await this.likesRepository.find({parentid}).toPromise();
+      return data.length;
     }
 
-    public insertOne(entityId: string, userId: string) {
-        const test = 'test';
-
+    public async addLike(like: Like): Promise<LikesEntity> {
+      return await this.likesRepository.create({parentid: like.parentid, userid: like.userid});
     }
 
 }
