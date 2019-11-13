@@ -1,19 +1,18 @@
 package main
 
 import (
-    "fmt"
-    "log"
-    "net/http"
+	"log"
+	"net/http"
 
-    "github.com/gorilla/mux"
+	user "../github/user"
+	"github.com/gorilla/mux"
 )
-func helloword(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w, "Welcome home!")
-}
 
 func main() {
-    router := mux.NewRouter().StrictSlash(true)
-    router.HandleFunc("/Users",  helloword)
+	router := mux.NewRouter().StrictSlash(true)
+	//Add user to database
+	router.HandleFunc("/users", user.Create).Methods("POST")
 
-    log.Fatal(http.ListenAndServe(":8080", router))
+	//Serve HTTP server
+	log.Fatal(http.ListenAndServe(":8080", router))
 }

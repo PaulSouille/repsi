@@ -1,0 +1,9 @@
+//POST -> /users = insert this user into database
+{
+	"firstname":"Lucas",
+	"lastname":"Blin",
+	"mail":"lucas@epsi.fr",
+	"birthday":"2017-10-09T13:25:00.000Z",
+	"country":"France",
+	"language":"FR"
+}
