@@ -13,3 +13,4 @@ export const generateJoiErrMessage = (error) => {
     const errors = error.details.map((detail: any) => detail.message);
     return errors.join(',');
 };
+
