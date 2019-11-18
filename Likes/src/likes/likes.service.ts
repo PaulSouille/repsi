@@ -6,6 +6,7 @@ import { Like } from './likes';
 @Injectable()
 export class LikesService {
 
+
   constructor(
 
     @models.InjectRepository(LikesEntity)
@@ -18,7 +19,12 @@ export class LikesService {
     }
 
     public async addLike(like: Like): Promise<LikesEntity> {
-      return await this.likesRepository.create({parentid: like.parentid, userid: like.userid});
+      return await this.likesRepository.save(like).toPromise();
+    }
+
+    public async removeLike (like: Like): Promise<LikesEntity> {
+      const likeToDelete: LikesEntity = {parentid: like.parentid, userid: like.userid, id: like.id};
+      return await this.likesRepository.remove(likeToDelete).toPromise();
     }
 
 }

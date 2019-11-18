@@ -1,10 +1,9 @@
-import { Controller, Get, Req, Put, Delete, Param, Body } from '@nestjs/common';
-import { Likes, Like } from './likes';
+import { Controller, Get, Req, Put, Delete, Param, Body, UseGuards } from '@nestjs/common';
+import { Like } from './likes';
 import { validateSchema } from '../helper/tools';
 import * as Joi from 'joi';
 import { LikesService } from './likes.service';
-
-import * as models from '@iaminfinity/express-cassandra';
+import { AuthGuard } from '@nestjs/passport';
 
 const pattern = /[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/;
 
@@ -14,36 +13,43 @@ export class LikesController {
     constructor(private likesService: LikesService ) {
 
     }
+    @UseGuards(AuthGuard('jwt'))
     @Get(':parentId/count')
-    async count(@Param() params): Promise<number> {
+    async count(@Param() params): Promise<Object> {
         validateSchema(params.parentId, Joi.string().regex(pattern).required());
-        const data = await this.likesService.countEntity(params.parentId);
-        return data;
+        const count = await this.likesService.countEntity(params.parentId);
+        return {data:{parentId: params.parentId, numberLikes: count}};
 
     }
 
+    @UseGuards(AuthGuard('jwt'))
     @Put()
-    async insertOne(@Body() like: Like): Promise<string> {
+    async insertOne(@Body() like: Like): Promise<void | Object> {
         validateSchema(like, Joi.object({
-                                    parentId:  Joi.string().regex(pattern).required(),
-                                    userId: Joi.string().regex(pattern).required(),
+                                    parentid:  Joi.string().regex(pattern).required(),
+                                    userid: Joi.string().regex(pattern).required(),
                                 }).unknown(false));
-        await this.likesService.addLike(like).then((data) => {
-            console.log(data);
+        const data =  await this.likesService.addLike(like).then((data) => {
+            return data;
         }).catch((err)=>{
             console.log(err);
         });
-        return 'should insert one';
+        return {data};
     }
 
+    @UseGuards(AuthGuard('jwt'))
     @Delete()
-    removeOne(@Body() likes: Likes): string {
-        validateSchema(likes, Joi.object({
-            // tslint:disable-next-line: max-line-length
-            parentId:  Joi.string().regex(pattern).required(),
-            userId: Joi.string().regex(pattern).required(),
+    async removeOne(@Body() like: Like): Promise<void | Object> {
+        validateSchema(like, Joi.object({
+            parentid:  Joi.string().regex(pattern).required(),
+            userid: Joi.string().regex(pattern).required(),
+            id: Joi.string().regex(pattern).required(),
+
         }).unknown(false));
-        return 'This action returns all likes';
+        const data = await this.likesService.removeLike(like).then(data=>{
+            return data;
+        });
+        return {data};
     }
 
 }
