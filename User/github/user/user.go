@@ -4,16 +4,20 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"time"
 
 	"github.com/gocql/gocql"
+	"github.com/gorilla/mux"
 
 	app "../app"
+	jsonHandler "../json"
 )
 
 //User : structure of an user
 type User struct {
+	ID        string    `json:"id" db:"id"`
 	Firstname string    `json:"firstname" db:"firstname"`
 	Lastname  string    `json:"lastname" db:"lastname"`
 	Mail      string    `json:"mail" db:"mail"`
@@ -27,35 +31,82 @@ var Session *gocql.Session
 
 //Create : create an user from Post request
 func Create(w http.ResponseWriter, r *http.Request) {
+	//Init cassandra connection and wait until we're done
 	Session = app.Init()
 	defer Session.Close()
 
+	//Instanciate an user
 	var user User
+
+	//Get POST values of the body
 	byteValue, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		fmt.Fprintf(w, "Can't retrieve the data from the request")
 	}
+
+	//Marshal the POST values into our user
 	json.Unmarshal(byteValue, &user)
-	fmt.Print(user)
-	if err := Session.Query("INSERT INTO users(id, email, birthday, country, firstname, language, lastname) VALUES(?, ?, ?, ?, ?, ?, ?)",
+
+	//Insert our new user into the database
+	if err := Session.Query("INSERT INTO users.users(id, email, birthday, country, firstname, language, lastname) VALUES(?, ?, ?, ?, ?, ?, ?)",
 		gocql.TimeUUID(), user.Mail, user.Birthday, user.Country, user.Firstname, user.Language, user.Lastname).Exec(); err != nil {
-		fmt.Println(err)
+		panic(err)
 	}
 
+	//Send HTTP Code 200
 	w.WriteHeader(http.StatusCreated)
 }
 
-func Search(w http.ResponseWriter, r *http.Request) User {
+//Search :
+func Search(w http.ResponseWriter, r *http.Request) {
+	//Init cassandra connection and wait until we're done
 	Session = app.Init()
 	defer Session.Close()
+
+	//Init empty user
 	var user User
 
-	row := Session.Query("SELECT * FROM users.users WHERE email = ?", r.FormValue("email"))
-	err := row.Scan(&user.Firstname, &user.Lastname, &user.Mail, &user.Birthday, &user.Language, &user.Country)
-	if err == nil {
-		fmt.Print(err)
+	//Retrieve get parameter
+	params := mux.Vars(r)
+	email := params["user-mail"]
+
+	//Query the database and marshall the result into our empty user var
+	if err := Session.Query(`SELECT * FROM users.users WHERE email = ? ALLOW FILTERING`,
+		email).Scan(&user.ID, &user.Mail, &user.Birthday, &user.Country, &user.Firstname, &user.Language, &user.Lastname); err != nil {
+		log.Fatal(err)
 	}
 
-	fmt.Print(user)
-	return user
+	//Write json object of the User into the response
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(user)
+}
+
+//Delete : delete an user
+func Delete(w http.ResponseWriter, r *http.Request) {
+	//Init cassandra connection and wait until we're done
+	Session = app.Init()
+	defer Session.Close()
+
+	//Instanciate jsonResponse and jsonRequest to handle response and request
+	jsonRequest := jsonHandler.JsonRequest{}
+	jsonResponse := jsonHandler.JsonResponse{}
+
+	//Decode received json into jsonRequest
+	err := json.NewDecoder(r.Body).Decode(&jsonRequest)
+	if err != nil {
+		panic(err)
+	}
+
+	//Query the database and marshall the result into our empty user var
+	if err := Session.Query(`DELETE FROM users.users WHERE id = ? and email = ?`,
+		jsonRequest.ID, jsonRequest.Mail).Exec(); err != nil {
+		log.Fatal(err)
+	} else {
+		jsonResponse.Status = "200"
+		jsonResponse.Message = "User deleted"
+	}
+
+	//Send back json data
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(jsonResponse)
 }
