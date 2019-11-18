@@ -44,3 +44,18 @@ func Create(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusCreated)
 }
+
+func Search(w http.ResponseWriter, r *http.Request) User {
+	Session = app.Init()
+	defer Session.Close()
+	var user User
+
+	row := Session.Query("SELECT * FROM users.users WHERE email = ?", r.FormValue("email"))
+	err := row.Scan(&user.Firstname, &user.Lastname, &user.Mail, &user.Birthday, &user.Language, &user.Country)
+	if err == nil {
+		fmt.Print(err)
+	}
+
+	fmt.Print(user)
+	return user
+}
