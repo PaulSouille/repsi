@@ -12,6 +12,10 @@ export class ProfileComponent implements OnInit {
   constructor(public auth: AuthService) { }
 
   ngOnInit() {
+    console.log(this.auth.auth0Client$);
+    this.auth.auth0Client$.subscribe(
+      client=> console.log(client)
+      );
     this.auth.userProfile$.subscribe(
       profile => this.profileJson = JSON.stringify(profile, null, 2)
     );
