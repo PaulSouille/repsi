@@ -13,8 +13,16 @@ export class LikesController {
     constructor(private likesService: LikesService ) {
 
     }
+
+    @Get('test')
     @UseGuards(AuthGuard('jwt'))
+    test(): string {
+        return 'test';
+    }
+
+
     @Get(':parentId/count')
+    @UseGuards(AuthGuard('jwt'))
     async count(@Param() params): Promise<Object> {
         validateSchema(params.parentId, Joi.string().regex(pattern).required());
         const count = await this.likesService.countEntity(params.parentId);

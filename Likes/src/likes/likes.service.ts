@@ -20,6 +20,7 @@ export class LikesService {
 
     public async addLike(like: Like): Promise<LikesEntity> {
       return await this.likesRepository.save(like).toPromise();
+
     }
 
     public async removeLike (like: Like): Promise<LikesEntity> {
