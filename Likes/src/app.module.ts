@@ -7,15 +7,18 @@ import {
 } from '@iaminfinity/express-cassandra';
 import { AuthModule } from './auth/auth.module';
 import * as dotenv from 'dotenv';
+import { DefaultModule } from './default/default.module';
 
-dotenv.config();
+if(process.env.NODE_ENV != 'production'){
+  dotenv.config();
+}
 
 const cassandraOptions: ExpressCassandraModuleOptions = {
   clientOptions: {
     contactPoints: [process.env.DB_HOST],
     keyspace: 'likes',
     protocolOptions: {
-      port: 9047,
+      port: parseInt(process.env.DB_PORT),
     },
     queryOptions: {
       consistency: 1,
@@ -33,6 +36,6 @@ const cassandraOptions: ExpressCassandraModuleOptions = {
 };
 
 @Module({
-  imports: [ExpressCassandraModule.forRoot(cassandraOptions), LikesModule, AuthModule],
+  imports: [ExpressCassandraModule.forRoot(cassandraOptions), LikesModule, AuthModule, DefaultModule],
 })
 export class AppModule {}

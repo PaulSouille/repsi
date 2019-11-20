@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Put, Delete, Param, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, Put, Delete, Param, Body, UseGuards, Redirect } from '@nestjs/common';
 import { Like } from './likes';
 import { validateSchema } from '../helper/tools';
 import * as Joi from 'joi';
@@ -14,12 +14,11 @@ export class LikesController {
 
     }
 
-    @Get('test')
-    @UseGuards(AuthGuard('jwt'))
-    test(): string {
-        return 'test';
+    @Get()
+    @Redirect('/documentation')
+    documentation(){
+        
     }
-
 
     @Get(':parentId/count')
     @UseGuards(AuthGuard('jwt'))
