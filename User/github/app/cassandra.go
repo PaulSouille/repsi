@@ -9,9 +9,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var cassandra_port int
-var cassandra_adress string
-
 //Init cassandra connection
 func Init() *gocql.Session {
 	err := godotenv.Load()
@@ -24,9 +21,8 @@ func Init() *gocql.Session {
 
 	// connect to the cluster
 	cluster := gocql.NewCluster(cassandra_adress)
-	cluster.Keyspace = "users"
 	cluster.Port = cassandra_port
-	cluster.Authenticator = gocql.PasswordAuthenticator{Username: "cassandra", Password: "ZF5d2CZFpnne9aHz"}
+	cluster.Authenticator = gocql.PasswordAuthenticator{Username: "cassandra", Password: os.Getenv("CASSANDRA1_PASS")}
 	session, err := cluster.CreateSession()
 	if err != nil {
 		log.Println(err)
