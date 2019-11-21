@@ -6,7 +6,9 @@ import * as config from '../../auth_config.json';
 export const environment = {
   production: true,
   auth_client_id: config.clientId,
-  auth_domain: config.domain
+  auth_domain: config.domain,
+  audience: config.audience,
+  callback_url: config.callback_url
 };
 
 /*

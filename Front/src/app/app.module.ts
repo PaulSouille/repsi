@@ -7,15 +7,18 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CallbackComponent } from './callback/callback.component';
-import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
+import { HomeComponent } from './pages/home/home.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { HeroComponent } from './components/hero/hero.component';
 import { HomeContentComponent } from './components/home-content/home-content.component';
 import { LoadingComponent } from './components/loading/loading.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCardModule } from '@angular/material';
+import { ExternalApiComponent } from './pages/external-api/external-api.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { APIInterceptor } from './tools/interceptor.tools';
+import { CallbackComponent } from './callback/callback.component';
+import { AuthService } from './auth/auth.service';
 
 export function hljsLanguages() {
   return [{ name: 'json', func: json }];
@@ -24,26 +27,33 @@ export function hljsLanguages() {
 @NgModule({
   declarations: [
     AppComponent,
-    CallbackComponent,
     HomeComponent,
     ProfileComponent,
     NavBarComponent,
     FooterComponent,
+    HeroComponent,
     HomeContentComponent,
-    LoadingComponent
+    LoadingComponent,
+    ExternalApiComponent,
+    CallbackComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     NgbModule,
     HighlightModule.forRoot({
       languages: hljsLanguages
     }),
     FontAwesomeModule,
-    BrowserAnimationsModule,
-    MatCardModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: APIInterceptor,
+    multi: true,
+  },
+  AuthService
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
