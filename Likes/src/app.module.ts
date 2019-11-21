@@ -7,7 +7,6 @@ import {
 } from '@iaminfinity/express-cassandra';
 import { AuthModule } from './auth/auth.module';
 import * as dotenv from 'dotenv';
-import { DefaultModule } from './default/default.module';
 
 if(process.env.NODE_ENV != 'production'){
   dotenv.config();
@@ -36,6 +35,6 @@ const cassandraOptions: ExpressCassandraModuleOptions = {
 };
 
 @Module({
-  imports: [ExpressCassandraModule.forRoot(cassandraOptions), LikesModule, AuthModule, DefaultModule],
+  imports: [ExpressCassandraModule.forRoot(cassandraOptions), LikesModule, AuthModule],
 })
 export class AppModule {}

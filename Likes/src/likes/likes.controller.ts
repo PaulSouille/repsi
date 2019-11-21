@@ -15,7 +15,7 @@ export class LikesController {
     }
 
     @Get()
-    @Redirect('/documentation')
+    @Redirect('/likes/documentation')
     documentation(){
         
     }
