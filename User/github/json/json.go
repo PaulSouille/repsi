@@ -6,6 +6,6 @@ type JsonRequest struct {
 }
 
 type JsonResponse struct {
-	Status  string `json:"id"`
-	Message string `json:"id"`
+	StatusCode string `json:"id"`
+	Error      string `json:"id"`
 }

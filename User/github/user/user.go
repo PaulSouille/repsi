@@ -39,13 +39,13 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	var user User
 
 	//Get POST values of the body
-	byteValue, err := ioutil.ReadAll(r.Body)
+	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		fmt.Fprintf(w, "Can't retrieve the data from the request")
 	}
 
 	//Marshal the POST values into our user
-	json.Unmarshal(byteValue, &user)
+	json.Unmarshal(body, &user)
 
 	//Insert our new user into the database
 	if err := Session.Query("INSERT INTO users.users(id, email, birthday, country, firstname, language, lastname) VALUES(?, ?, ?, ?, ?, ?, ?)",
@@ -73,7 +73,7 @@ func Search(w http.ResponseWriter, r *http.Request) {
 	//Query the database and marshall the result into our empty user var
 	if err := Session.Query(`SELECT * FROM users.users WHERE email = ? ALLOW FILTERING`,
 		email).Scan(&user.ID, &user.Mail, &user.Birthday, &user.Country, &user.Firstname, &user.Language, &user.Lastname); err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
 	//Write json object of the User into the response
@@ -97,13 +97,48 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	//Query the database and marshall the result into our empty user var
+	//Delete the user for a given id and email
 	if err := Session.Query(`DELETE FROM users.users WHERE id = ? and email = ?`,
 		jsonRequest.ID, jsonRequest.Mail).Exec(); err != nil {
 		log.Fatal(err)
-	} else {
-		jsonResponse.Status = "200"
-		jsonResponse.Message = "User deleted"
+	}
+
+	//Send back json data
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(jsonResponse)
+}
+
+//Update : update an user
+func Update(w http.ResponseWriter, r *http.Request) {
+	//Init cassandra connection and wait until we're done
+	Session = app.Init()
+	defer Session.Close()
+
+	//Instanciate jsonResponse and jsonRequest to handle response and request
+	jsonResponse := jsonHandler.JsonResponse{}
+
+	//Instanciate an user
+	var user User
+
+	//Get POST values of the body
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Fprintf(w, "Can't retrieve the data from the request")
+	}
+
+	//Marshal the POST values into our user
+	json.Unmarshal(body, &user)
+
+	//Delete the old user to update it
+	if err := Session.Query(`DELETE FROM users.users WHERE id = ? and email = ?`,
+		user.ID, user.Mail).Exec(); err != nil {
+		log.Fatal(err)
+	}
+
+	//Insert the updated user into the database
+	if err := Session.Query("INSERT INTO users.users(id, email, birthday, country, firstname, language, lastname) VALUES(?, ?, ?, ?, ?, ?, ?)",
+		gocql.TimeUUID(), user.Mail, user.Birthday, user.Country, user.Firstname, user.Language, user.Lastname).Exec(); err != nil {
+		panic(err)
 	}
 
 	//Send back json data
