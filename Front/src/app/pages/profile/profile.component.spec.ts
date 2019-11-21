@@ -1,6 +1,7 @@
+/* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HighlightModule } from 'ngx-highlightjs';
-import { hljsLanguages } from 'src/app/app.module';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
 
 import { ProfileComponent } from './profile.component';
 
@@ -10,18 +11,15 @@ describe('ProfileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProfileComponent],
-      imports: [
-        HighlightModule.forRoot({
-          languages: hljsLanguages
-        })
-      ]
-    }).compileComponents();
+      declarations: [ ProfileComponent ]
+    })
+    .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfileComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {

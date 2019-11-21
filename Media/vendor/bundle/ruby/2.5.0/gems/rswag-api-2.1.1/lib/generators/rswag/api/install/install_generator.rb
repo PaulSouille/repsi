@@ -11,7 +11,7 @@ module Rswag
       end
 
       def add_routes
-        route("mount Rswag::Api::Engine => '/api-docs'")
+        route("mount Rswag::Api::Engine => '/media/documentation'")
       end
     end
   end

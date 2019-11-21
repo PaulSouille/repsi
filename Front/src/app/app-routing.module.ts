@@ -1,29 +1,33 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './pages/home/home.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { ExternalApiComponent } from './pages/external-api/external-api.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CallbackComponent } from './callback/callback.component';
-import { AuthGuard } from './auth/auth.guard';
-import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   {
-    path: 'callback',
-    component: CallbackComponent
-  },
-  {
     path: 'profile',
     component: ProfileComponent,
-    canActivate: [AuthGuard]
+  },
+  {
+    path: 'external-api',
+    component: ExternalApiComponent,
   },
   {
     path: '',
     component: HomeComponent,
     pathMatch: 'full'
-  }
+  },  
+  { path: 'callback', component: CallbackComponent },
+
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+  ]
 })
 export class AppRoutingModule { }
