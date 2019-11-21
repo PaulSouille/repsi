@@ -30,6 +30,11 @@ func main() {
 		negroni.HandlerFunc(jwtMiddleware.HandlerWithNext),
 		negroni.Wrap(http.HandlerFunc(user.Delete)))).Methods("DELETE")
 
+	//Update an user with his id/mail
+	router.Handle("/users", negroni.New(
+		negroni.HandlerFunc(jwtMiddleware.HandlerWithNext),
+		negroni.Wrap(http.HandlerFunc(user.Update)))).Methods("PUT")
+
 	//Serve HTTP server
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

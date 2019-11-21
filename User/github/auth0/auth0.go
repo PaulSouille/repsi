@@ -3,10 +3,13 @@ package auth0
 import (
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
+	"os"
 
 	jwtmiddleware "github.com/auth0/go-jwt-middleware"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/joho/godotenv"
 )
 
 type Response struct {
@@ -28,16 +31,21 @@ type JSONWebKeys struct {
 
 //Initiate : initiate the JWTMidleware
 func Initiate() *jwtmiddleware.JWTMiddleware {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	jwtMiddleware := jwtmiddleware.New(jwtmiddleware.Options{
 		ValidationKeyGetter: func(token *jwt.Token) (interface{}, error) {
 			// Verify 'aud' claim
-			checkAud := token.Claims.(jwt.MapClaims).VerifyAudience("http://localhost:8080", false)
+			checkAud := token.Claims.(jwt.MapClaims).VerifyAudience(os.Getenv("AUDIENCE_AUTH0"), false)
 			if !checkAud {
 				return token, errors.New("Invalid audience")
 			}
 
 			// Verify 'iss' claim
-			checkIss := token.Claims.(jwt.MapClaims).VerifyIssuer("https://dev-1x2jzvjx.eu.auth0.com/", false)
+			checkIss := token.Claims.(jwt.MapClaims).VerifyIssuer(os.Getenv("URL_AUTH0"), false)
 			if !checkIss {
 				return token, errors.New("Invalid issuer")
 			}
@@ -59,7 +67,7 @@ func Initiate() *jwtmiddleware.JWTMiddleware {
 //getPemCert : check if the current bearer has access
 func getPemCert(token *jwt.Token) (string, error) {
 	cert := ""
-	resp, err := http.Get("https://dev-1x2jzvjx.eu.auth0.com/.well-known/jwks.json")
+	resp, err := http.Get(os.Getenv("CERT_AUTH0"))
 
 	if err != nil {
 		return cert, err
