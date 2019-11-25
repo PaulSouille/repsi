@@ -1,9 +1,48 @@
-<div class="d-flex flex-column h-100">
-  <app-nav-bar></app-nav-bar>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Auth0 - Angular</a>
 
-  <div class="flex-grow-1 flex-shrink-1">
-    <router-outlet></router-outlet>
+      <button
+        class="btn btn-primary btn-margin"
+        routerLink="/">
+          Home
+      </button>
+
+      <button
+        class="btn btn-primary btn-margin"
+        *ngIf="auth.isAuthenticated()"
+        routerLink="/profile">
+          Profile
+      </button>
+
+      <button
+        class="btn btn-primary btn-margin"
+        *ngIf="auth.isAuthenticated()"
+        (click)="auth.renewToken()">
+        Renew
+      </button>
+
+      <button
+        id="qsLoginBtn"
+        class="btn btn-primary btn-margin"
+        *ngIf="!auth.isAuthenticated()"
+        (click)="auth.login()">
+          Log In
+      </button>
+
+      <button
+        id="qsLogoutBtn"
+        class="btn btn-primary btn-margin"
+        *ngIf="auth.isAuthenticated()"
+        (click)="auth.logout()">
+          Log Out
+      </button>
+
+    </div>
   </div>
+</nav>
 
-  <app-footer></app-footer>
-</div>
+<main class="container">
+  <router-outlet></router-outlet>
+</main>

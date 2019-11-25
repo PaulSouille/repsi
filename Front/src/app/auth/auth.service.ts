@@ -1,11 +1,9 @@
-
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import 'rxjs/add/operator/filter';
 import * as auth0 from 'auth0-js';
-import { environment } from 'src/environments/environment';
-import { timer, of } from 'rxjs';
-import  * as _  from 'lodash';
-import { mergeMap} from 'rxjs/operators';
+import { environment } from 'environments/environment';
 (window as any).global = window;
 
 @Injectable()
@@ -25,9 +23,7 @@ export class AuthService {
   constructor(public router: Router) {}
 
   public login(): void {
-    console.log('test1')
     this.auth0.authorize();
-    console.log('test2');
   }
 
   public handleAuthentication(): void {
@@ -61,7 +57,7 @@ export class AuthService {
   private setSession(authResult): void {
     // Set the time that the access token will expire at
     const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + Date.now());
-
+    console.log(authResult.accessToken);
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
@@ -103,25 +99,22 @@ export class AuthService {
 
     const expiresAt = JSON.parse(window.localStorage.getItem('expires_at'));
 
-    const source = of(expiresAt).pipe((expiresAt:any) => {
+    const source = Observable.of(expiresAt).flatMap(
+      expiresAt => {
 
-      const now = Date.now();
+        const now = Date.now();
 
-      // Use the delay in a timer to
-      // run the refresh at the proper time
-      console.log(expiresAt)
-
-      return timer(Math.max(1, expiresAt - now));
-
-    })
-    
+        // Use the delay in a timer to
+        // run the refresh at the proper time
+        return Observable.timer(Math.max(1, expiresAt - now));
+      });
 
     // Once the delay time from above is
     // reached, get a new JWT and schedule
     // additional refreshes
     this.refreshSubscription = source.subscribe(() => {
       this.renewToken();
-      // this.scheduleRenewal();
+      this.scheduleRenewal();
     });
   }
 
@@ -131,3 +124,4 @@ export class AuthService {
   }
 
 }
+
