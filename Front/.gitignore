@@ -43,3 +43,4 @@ Thumbs.db
 
 .env
 auth0-variables.ts
+auth_config.json
