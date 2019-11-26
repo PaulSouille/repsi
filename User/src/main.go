@@ -17,13 +17,20 @@ func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	jwtMiddleware := auth0.Initiate()
 
+	//Create an user
 	router.Handle("/users", negroni.New(
 		negroni.HandlerFunc(jwtMiddleware.HandlerWithNext),
 		negroni.Wrap(http.HandlerFunc(user.Create)))).Methods("POST")
 
-	router.Handle("/users/{user-mail}", negroni.New(
+	//Search and user with its mail
+	router.Handle("/users/mail/{user-mail}", negroni.New(
 		negroni.HandlerFunc(jwtMiddleware.HandlerWithNext),
-		negroni.Wrap(http.HandlerFunc(user.Search)))).Methods("GET")
+		negroni.Wrap(http.HandlerFunc(user.SearchEmail)))).Methods("GET")
+
+	//Search and user with its UUID
+	router.Handle("/users/uuid/{user-uuid}", negroni.New(
+		negroni.HandlerFunc(jwtMiddleware.HandlerWithNext),
+		negroni.Wrap(http.HandlerFunc(user.SearchUUID)))).Methods("GET")
 
 	//Delete an user with his id/mail
 	router.Handle("/users", negroni.New(
