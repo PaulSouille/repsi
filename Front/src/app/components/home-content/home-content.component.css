@@ -1,0 +1,15 @@
+.posted_by{
+    font-size: 12px;
+    color:gray;
+    font-weight: initial;
+}
+
+.footer_topic{
+    color: gray;
+    font-size: 14px;
+}
+
+.footer_topic > span
+{
+    margin-right: 10px;
+}

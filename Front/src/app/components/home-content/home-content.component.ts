@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { faLink } from '@fortawesome/free-solid-svg-icons';
+import { faLink, faShare, faSave, faCommentAlt } from '@fortawesome/free-solid-svg-icons';
+import { faReddit } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-home-content',
@@ -8,6 +9,11 @@ import { faLink } from '@fortawesome/free-solid-svg-icons';
 })
 export class HomeContentComponent implements OnInit {
   faLink = faLink;
+  faReddit = faReddit;
+  faShare = faShare;
+  faSave = faSave;
+  faCommentAlt = faCommentAlt;
+
 
   constructor() { }
 
