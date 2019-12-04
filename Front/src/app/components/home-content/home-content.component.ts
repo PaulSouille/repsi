@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { faLink, faShare, faSave, faCommentAlt } from '@fortawesome/free-solid-svg-icons';
+import { faLink, faShare, faSave, faCommentAlt, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { faReddit } from '@fortawesome/free-brands-svg-icons';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-home-content',
@@ -13,6 +14,8 @@ export class HomeContentComponent implements OnInit {
   faShare = faShare;
   faSave = faSave;
   faCommentAlt = faCommentAlt;
+  faArrowUp = faArrowUp;
+  faArrowDown = faArrowDown;
 
 
   constructor() { }

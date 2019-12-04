@@ -1,64 +1,105 @@
 <div class="next-steps my-5">
-    <div class="row">
-      <div class="col-md-10 mb-2">
-        <h6 class="mb-3">
-          <a href="https://auth0.com/docs/multifactor-authentication">
-            <fa-icon [icon]="faReddit"></fa-icon> r/programming
-          
-          </a>
-          <span class="posted_by">
+  <div class="row">
+    <div class="col-md-7 mb-2 topic">
+      <h6 class="mb-3">
+        <a href="">
+          <fa-icon [icon]="faReddit"></fa-icon>
+          r/programming
+
+        </a>
+        <span class="posted_by">
             - Posted by <a href="">u/[user]</a> [hours] hours ago
           </span>
-        </h6>
-        <p>
-          [topic question]
-        </p>
-        <div class="footer_topic">
+      </h6>
+      <p>
+        [topic question]
+      </p>
+      <div class="footer_topic">
           <span class="footer_comments">
             <fa-icon [icon]="faCommentAlt"></fa-icon> [number] Comments
           </span>
-          <span class="footer_share">
+        <span class="footer_comments">
+            <fa-icon [icon]="faArrowUp"></fa-icon> [number]
+          </span>
+        <span class="footer_comments">
+            <fa-icon [icon]="faArrowDown"></fa-icon> [number]
+          </span>
+        <span class="footer_share">
             <fa-icon [icon]="faShare"></fa-icon> Share
           </span>
-          <span class="footer_save">
+        <span class="footer_save">
             <fa-icon [icon]="faSave"></fa-icon> Save
           </span>
-          <span class="footer_more">
+        <span class="footer_more">
             ...
           </span>
-        </div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-10 mb-2">
-        <h6 class="mb-3">
-          <a href="https://auth0.com/docs/multifactor-authentication">
-            <fa-icon [icon]="faReddit"></fa-icon> r/programming
-          
-          </a>
-          <span class="posted_by">
-            - Posted by <a href="">u/lucas</a> 20 hours ago
-          </span>
-        </h6>
-        <p>
-          Pourquoi on va en cours au juste ?
-        </p>
-        <div class="footer_topic">
-          <span class="footer_comments">
-            <fa-icon [icon]="faCommentAlt"></fa-icon> 10.6K Comments
-          </span>
-          <span class="footer_share">
-            <fa-icon [icon]="faShare"></fa-icon> Share
-          </span>
-          <span class="footer_save">
-            <fa-icon [icon]="faSave"></fa-icon> Save
-          </span>
-          <span class="footer_more">
-            ...
-          </span>
-        </div>
-      </div>
-    </div>
 
+    <div class="col-md-4 topic_side">
+      <div class="row topic_row">
+          <div class="topic_header">
+            Community details
+          </div>
+          <div class="topic_info_all">
+            <div class="topic_info">
+              <span class="topic_info_name">
+                <fa-icon [icon]="faReddit"></fa-icon> r/[topic]
+              </span>
+            </div>
+
+            <div class="topic_stats">
+            <span class="topic_stats_followers">
+              <fa-icon [icon]="faReddit"></fa-icon> [numbers]
+              <div>
+                Followers
+              </div>
+            </span>
+            <span class="topic_stats_online">
+            <fa-icon [icon]="faReddit"></fa-icon> [numbers]
+            <div>
+              Online
+            </div>
+            </span>
+              <span class="topic_stats_birth">
+              <fa-icon [icon]="faReddit"></fa-icon> [date]
+              <div>
+                Cake day
+              </div>
+            </span>
+            </div>
+
+            <button class="full_width light_blue" mat-raised-button color="primary">Join</button>
+          </div>
+        </div>
+    </div>
   </div>
+  <div class="row">
+    <div class="col-md-4 topic_side">
+      <div class="row topic_row">
+        <div class="trending_header">
+          Trending communities
+        </div>
+        <div class="topic_info_all">
+          <div class="trending_info">
+              <span class="trending_info_name">
+                <fa-icon [icon]="faReddit"></fa-icon>
+              </span>
+              <div class="trending_line">
+                <div class="trending_title">
+                  r/[topic]
+
+                  <button class="light_blue" mat-raised-button color="primary">Join</button>
+                </div>
+                <div class="trending_members">
+                  [members] members
+                </div>
+              </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
