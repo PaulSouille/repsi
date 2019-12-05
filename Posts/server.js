@@ -1,14 +1,13 @@
 'use strict';
 
 var Hapi = require('hapi');
-var settings = require('config');
 var routes = require('./routes');
 const Inert = require('inert');
 const Pack = require('./package')
 const Vision = require('vision');
-const AuthBearer = require('hapi-auth-bearer-token');
 const HapiSwagger = require('hapi-swagger');
-
+const jwt = require('hapi-auth-jwt2');
+const jwksRsa = require('jwks-rsa');
 const internals = {
   templatePath: '.'
 };
@@ -16,6 +15,23 @@ const internals = {
 if(process.env.NODE_ENV != 'production'){
   require('dotenv').config()
 }
+
+
+const validateUser = async (decoded, request) => {
+  console.log('test');
+  if (decoded && decoded.sub) {
+      return decoded.scope
+          ? {
+              isValid: true,
+              credentials: {
+                  scope: decoded.scope.split(' ')
+              }
+          }
+          : { isValid: true };
+  }
+
+  return { isValid: false };
+};
 
 
 const server = new Hapi.Server({
@@ -44,6 +60,25 @@ var initDb = function (cb) {
 };
 
 internals.main = async () => {
+  await server.register(require('hapi-auth-jwt2'));
+  server.auth.strategy('jwt', 'jwt', {
+    complete: true,
+    key: jwksRsa.hapiJwt2KeyAsync({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 5,
+        jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`,
+      }),
+    verifyOptions: {
+      audience: process.env.AUTH0_AUDIENCE,
+        issuer: `https://${process.env.AUTH0_DOMAIN}/`,
+        algorithms: ['RS256']
+    },
+    validate: validateUser
+  });
+
+  server.auth.default('jwt');
+  
   await server.register([
     Inert,
     Vision,
@@ -53,19 +88,7 @@ internals.main = async () => {
     }
 
   ]);
-  await server.register(require('inert'));
-
-  await server.register(AuthBearer)
-  server.auth.strategy('simple', 'bearer-access-token', {
-    allowQueryToken: true,
-    validate: async (request, token, h) => {
-      const isValid = token === settings.token;
-      const credentials = { token };
-
-      return { isValid, credentials };
-    }
-  });
-  server.auth.default('simple');
+ 
 
   await server.start();
   initDb(() => {

@@ -1,6 +1,5 @@
 const controllers = require('../controllers');
 const Joi = require('joi');
-const  settings = require('config');
 module.exports = [
   //GET /device
   {
@@ -11,6 +10,8 @@ module.exports = [
       cors : true,
       description: 'Get all comments',
       tags: ['api'], 
+      auth: 'jwt'
+
     }  
   },
   {
@@ -21,6 +22,8 @@ module.exports = [
       cors : true,
       description: 'Get one comment',
       tags: ['api'], 
+      auth: 'jwt'
+
     }
   },
   {
@@ -31,6 +34,8 @@ module.exports = [
       cors : true,
       description: 'create comment',
       tags: ['api'], 
+      auth: 'jwt'
+
     }  
   },
   {
@@ -41,6 +46,8 @@ module.exports = [
       cors : true,
       description: 'update comment',
       tags: ['api'], 
+      auth: 'jwt'
+
     }  
   },
   {
@@ -51,6 +58,8 @@ module.exports = [
       cors : true,
       description: 'delete comment',
       tags: ['api'], 
+      auth: 'jwt'
+
     }  
   }
 ];

@@ -1,18 +1,17 @@
 const controllers = require('../controllers');
 const Joi = require('joi');
-const  settings = require('config');
 module.exports = [
   //GET /device
   {
     method: 'GET',
     path: '/posts',
-    handler: controllers.posts.getAll
-    ,
+    handler: controllers.posts.getAll,
     options: {
       cors : true,
       description: 'Get all posts',
       tags: ['api'], 
-    }  
+      auth: 'jwt'
+    },
   },
   {
     method: 'GET',
@@ -22,6 +21,8 @@ module.exports = [
       cors : true,
       description: 'Get one post',
       tags: ['api'], 
+      auth: 'jwt'
+
     }
   },
   {
@@ -32,26 +33,32 @@ module.exports = [
       cors : true,
       description: 'create posts',
       tags: ['api'], 
+      auth: 'jwt'
+
     }  
   },
   {
-    method: 'put',
+    method: 'PUT',
     path: '/posts',
     handler: controllers.posts.put,
     options: {
       cors : true,
       description: 'update posts',
       tags: ['api'], 
+      auth: 'jwt'
+
     }  
   },
   {
-    method: 'delete',
+    method: 'DELETE',
     path: '/posts',
     handler: controllers.posts.delete,
     options: {
       cors : true,
       description: 'delete posts',
       tags: ['api'], 
+      auth: 'jwt'
+
     }  
   }
 ];
