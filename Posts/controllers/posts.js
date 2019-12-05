@@ -11,16 +11,19 @@ module.exports = {
 	},
 	get: async (request,reply) => {
 
-		const result= await cassandraPost.postMapper.find({id:request.params.id}).then(function(value) {
-			return value["_rs"]["rows"];
+		const result= await cassandraPost.postMapper.get({id:request.params.id}).then(function(value) {
+			return value;
 		});
 		return result;
 	},
 	post: async(request,reply)=>{
 		
-		const post = { ...request.payload, id : Uuid.fromString(request.payload.id), creator: Uuid.fromString(request.payload.creator) };
+		const post = { ...request.payload  };
 		const result= await cassandraPost.postMapper.insert(post).then(function() {
 			return post;
+		}).catch(function(error){
+			console.error(error);
+			return error;
 		});
 		return result;
 

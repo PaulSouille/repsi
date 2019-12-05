@@ -2,43 +2,76 @@ const cassandraPost= require('../db/cassandra.js')
 
 const Uuid = require('cassandra-driver').types.Uuid;
 
+// Write your own query using query markers for parameters
+
+
+// Create a new ModelMapper method with your own query
+// and a function to extract the parameters from an object 
+
 module.exports = {
 	getAll: async (request, reply) => {
-	const result= await cassandraPost.postMapper.findAll().then(function(value) {
-		return value["_rs"]["rows"];
+	const result= await cassandraPost.postMapper.get({id:request.params.postId}).then(function(value) {
+		
+		return value;
 	});
-	return result;
-
+	return result.comments;
 	},
 	get: async (request,reply) => {
 
-		const result= await cassandraPost.postMapper.find({id:request.params.id}).then(function(value) {
-			return value["_rs"]["rows"];
+		const result= await cassandraPost.postMapper.get({id:request.params.postId}).then(function(value) {
+			return value;
 		});
-		return result;
+
+		return result.comments.filter((comment) => comment.id ==request.params.id);
 	},
 	post: async(request,reply)=>{
-        const comment = { ...request.payload, id : Uuid.fromString(request.payload.id), creator: Uuid.fromString(request.payload.creator) }
+		const post= await cassandraPost.postMapper.get({id:request.params.postId}).then(function(value) {return value;});
+		const comment = request.payload ;	
+		const newPost = { ...post, comments:post.comments==null ? [comment]: post.comments.concat(comment) };
 
-		const result= await cassandraPost.postMapper.insert(post).then(function() {
-			return post;
+		await cassandraPost.postMapper.remove(post).then(function() {
+            return  {message:"Le post a bien été supprimé"};
 		});
+		const result= await cassandraPost.postMapper.insert(newPost).then(function() {
+		 	return newPost;
+		 }).catch(function(error){
+			 console.error(error);
+			 
+		 });
 		return result;
 
 	},
 	put: async(request,reply)=>{	
-		const result= await cassandraPost.postMapper.update(request.payload).then(function() {
-			return request.payload;
-		});
-		return result;
-	},
-	delete: async(request, reply)=>{
-		const result= await cassandraPost.postMapper.remove(request.payload).then(function() {
+		const post= await cassandraPost.postMapper.get({id:request.params.postId}).then(function(value) {return value;});
+		const comments = post.comments.filter((comment) => comment.id !=request.payload.id);
+		console.log(comments);
+		const newPost = { ...post, comments:comments.concat(request.payload) };
+		await cassandraPost.postMapper.remove(post).then(function() {
             return  {message:"Le post a bien été supprimé"};
 		});
+		const result= await cassandraPost.postMapper.insert(newPost).then(function() {
+		 	return request.payload;
+		 }).catch(function(error){
+			 console.error(error);
+			 
+		 });
+		return result;
+
+	},
+	delete: async(request, reply)=>{
+		const post= await cassandraPost.postMapper.get({id:request.params.postId}).then(function(value) {return value;});
+		const comments = post.comments.filter((comment) => comment.id !=request.payload.id);
+		const newPost = { ...post, comments:comments};
+		await cassandraPost.postMapper.remove(post).then(function() {
+            return  {message:"Le post a bien été supprimé"};
+		});
+		const result= await cassandraPost.postMapper.insert(newPost).then(function() {
+		 	return newPost;
+		 }).catch(function(error){
+			 console.error(error);
+			 
+		 });
 		return result;
 	}
-
-
 
 };
