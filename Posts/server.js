@@ -13,9 +13,14 @@ const internals = {
   templatePath: '.'
 };
 
+if(process.env.NODE_ENV != 'production'){
+  require('dotenv').config()
+}
+
+
 const server = new Hapi.Server({
-  host: settings.host,
-  port: settings.port,
+  host: process.env.host,
+  port: process.env.port,
 });
 
 

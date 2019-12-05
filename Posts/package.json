@@ -6,12 +6,13 @@
   "scripts": {
     "start": "nodemon --watch controllers/ --watch db/ --watch routes/ --watch server.js --exec node server.js "
   },
-  "author": "Charly CAILLON",
+  "author": "Manon RAMBAUD",
   "dependencies": {
     "@hapi/subtext": "^6.1.2",
     "cassandra-co": "^0.4.1",
     "cassandra-driver": "^4.3.1",
     "config": "^3.1.0",
+    "dotenv": "^8.2.0",
     "express-cassandra": "^2.3.2",
     "hapi": "^18.1.0",
     "hapi-auth-bearer-token": "^6.1.1",
