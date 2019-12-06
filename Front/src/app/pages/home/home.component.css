@@ -3,37 +3,37 @@
     color: gray;
     font-weight: initial;
   }
-  
+
   .footer_topic {
     color: gray;
     font-size: 14px;
   }
-  
+
   .footer_topic > span {
     margin-right: 10px;
   }
-  
+
   .topic_stats > span {
     width: 33%;
   }
-  
+
   .topic_stats {
     display: inline-flex;
     width: 100%;
   }
-  
+
   .topic_info {
     margin-bottom: 20px;
   }
-  
+
   .topic_desc {
     margin-top: 20px;
   }
-  
+
   .topic_info > .topic_info_name > fa-icon {
     font-size: 50px;
   }
-  
+
   .topic {
     background: white;
     height: max-content;
@@ -42,65 +42,72 @@
     border-radius: 5px;
     margin-right: 80px;
   }
-  
+
   .topic_header {
     background: #428bca;
     color: white;
     padding: 5px 10px;
     width: 100%;
   }
-  
+
   .topic_info_all {
     padding: 10px;
     width: 100%;
   }
-  
+
   .topic_side {
     background: white;
     border: 1px solid gray;
     border-radius: 5px;
   }
-  
+
   .topic_row {
     margin-bottom: 0px;
   }
-  
+
   .full_width {
     margin-top: 10px;
     width: 100%;
   }
-  
+
   .light_blue {
     background: #67C8FF;
   }
-  
+
   .trending_info_name > fa-icon {
     font-size: 25px;
   }
-  
+
   .trending_info_name {
     margin-right: 10px;
   }
-  
+
   .trending_info {
     display: flex;
   }
-  
+
   .trending_title {
     width: 100%;
   }
-  
+
   .trending_title > button {
     float: right;
   }
-  
+
   .trending_line {
     width: 100%;
     font-size: 12px;
   }
-  
+
   .trending_header {
     font-size: 14px;
     padding: 10px;
   }
-  
+
+  .comment{
+    margin-top: 20px;
+  }
+
+  .comment_header{
+    font-size: 12px;
+  }
