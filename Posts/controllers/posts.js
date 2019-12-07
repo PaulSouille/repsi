@@ -11,7 +11,7 @@ module.exports = {
 	},
 	get: async (request,reply) => {
 
-		const result= await cassandraPost.postMapper.get({id:request.params.id}).then(function(value) {
+		const result= await cassandraPost.postMapper.get({id:request.query.id}).then(function(value) {
 			return value;
 		});
 		return result;
@@ -28,16 +28,28 @@ module.exports = {
 		return result;
 
 	},
-	put: async(request,reply)=>{	
-		const result= await cassandraPost.postMapper.update(request.payload).then(function() {
-			return request.payload;
+	put: async(request,reply)=>{
+		const oldPost= await cassandraPost.postMapper.get({id:request.query.id}).then(function(value) {
+				return value;
 		});
+		await cassandraPost.postMapper.remove({id:request.query.id}).then(function() {
+			return {state:"succes",message:"Le post a bien été supprimé"};
+		});
+			
+		const newPost = {...oldPost,  content:request.payload.content!=undefined? request.payload.content:oldPost.content, state:request.payload.state!=undefined? request.payload.state : oldPost.state , deleted_date:request.payload.deleted_date!=undefined? request.payload.deleted_date:oldPost.deleted_date}
+		const result= await cassandraPost.postMapper.insert(newPost).then(function() {
+				return newPost;
+			});
+		
 		return result;
 	},
 	delete: async(request, reply)=>{
-		const result= await cassandraPost.postMapper.remove(request.payload).then(function() {
+		const result= await cassandraPost.postMapper.remove({id:request.query.id}).then(function() {
 			return {message:"Le post a bien été supprimé"};
-		});
+		}).catch(function(error){
+			console.error(error);
+		}
+		);
 		return result;
 	}
 

@@ -33,7 +33,7 @@ const validateUser = async (decoded, request) => {
   return { isValid: false };
 };
 
-
+console.log(process.env.host);
 const server = new Hapi.Server({
   host: process.env.host,
   port: process.env.port,

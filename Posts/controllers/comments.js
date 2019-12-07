@@ -13,6 +13,9 @@ module.exports = {
 	const result= await cassandraPost.postMapper.get({id:request.params.postId}).then(function(value) {
 		
 		return value;
+	}).catch(function(error){
+		console.error(error);
+		
 	});
 	return result.comments;
 	},
@@ -22,7 +25,7 @@ module.exports = {
 			return value;
 		});
 
-		return result.comments.filter((comment) => comment.id ==request.params.id);
+		return result.comments.filter((comment) => comment.id ==request.query.id);
 	},
 	post: async(request,reply)=>{
 		const post= await cassandraPost.postMapper.get({id:request.params.postId}).then(function(value) {return value;});
@@ -43,24 +46,33 @@ module.exports = {
 	},
 	put: async(request,reply)=>{	
 		const post= await cassandraPost.postMapper.get({id:request.params.postId}).then(function(value) {return value;});
-		const comments = post.comments.filter((comment) => comment.id !=request.payload.id);
-		console.log(comments);
-		const newPost = { ...post, comments:comments.concat(request.payload) };
-		await cassandraPost.postMapper.remove(post).then(function() {
+		const comments = post.comments.filter((comment) => comment.id !=request.query.id);
+		const arrayOldComment = post.comments.filter((comment) => comment.id ==request.query.id);
+		const oldComment = arrayOldComment.reduce((item) => {
+    		return {
+       			item
+    		}
+		});
+		const newComment = { ...oldComment, content:request.payload.content}
+		const newPost = { ...post, comments:comments.concat(newComment) };
+		
+		await cassandraPost.postMapper.remove({id:request.params.postId}).then(function() {
             return  {message:"Le post a bien été supprimé"};
 		});
+		
 		const result= await cassandraPost.postMapper.insert(newPost).then(function() {
-		 	return request.payload;
+		 	return newPost;
 		 }).catch(function(error){
 			 console.error(error);
 			 
 		 });
 		return result;
+	
 
 	},
 	delete: async(request, reply)=>{
 		const post= await cassandraPost.postMapper.get({id:request.params.postId}).then(function(value) {return value;});
-		const comments = post.comments.filter((comment) => comment.id !=request.payload.id);
+		const comments = post.comments.filter((comment) => comment.id !=request.query.id);
 		const newPost = { ...post, comments:comments};
 		await cassandraPost.postMapper.remove(post).then(function() {
             return  {message:"Le post a bien été supprimé"};
