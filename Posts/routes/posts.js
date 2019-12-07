@@ -1,7 +1,10 @@
 const controllers = require('../controllers');
 const Joi = require('joi');
+/*
+  Endpoints: post
+ */
 module.exports = [
-  //GET /device
+  //GET /posts
   {
     method: 'GET',
     path: '/posts',
@@ -13,6 +16,7 @@ module.exports = [
       auth: 'jwt'
     },
   },
+  //GET /posts/
   {
     method: 'GET',
     path: '/posts/',
@@ -29,6 +33,7 @@ module.exports = [
       }
     }
   },
+  //POST /posts/
   {
     method: 'POST',
     path: '/posts/',
@@ -54,6 +59,7 @@ module.exports = [
 
     }  
   },
+  //PUT /posts/
   {
     method: 'PUT',
     path: '/posts/',
@@ -76,6 +82,7 @@ module.exports = [
 
     }  
   },
+  //DELETE /posts/
   {
     method: 'DELETE',
     path: '/posts/',
