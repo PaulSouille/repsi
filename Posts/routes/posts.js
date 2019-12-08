@@ -1,7 +1,10 @@
 const controllers = require('../controllers');
 const Joi = require('joi');
+/*
+  Endpoints: post
+ */
 module.exports = [
-  //GET /device
+  //GET /posts
   {
     method: 'GET',
     path: '/posts',
@@ -13,51 +16,87 @@ module.exports = [
       auth: 'jwt'
     },
   },
+  //GET /posts/
   {
     method: 'GET',
-    path: '/posts/{id}',
+    path: '/posts/',
     handler: controllers.posts.get,
     options: {
       cors : true,
       description: 'Get one post',
       tags: ['api'], 
-      auth: 'jwt'
-
+      auth: 'jwt',
+      validate:{
+        query:{
+          id:Joi.string().guid().required()        
+        }
+      }
     }
   },
+  //POST /posts/
   {
     method: 'POST',
-    path: '/posts',
+    path: '/posts/',
     handler: controllers.posts.post,
     options: {
       cors : true,
-      description: 'create posts',
+      description: 'Create one post',
       tags: ['api'], 
-      auth: 'jwt'
+      auth: 'jwt',
+      validate:{
+        payload:{
+          id:Joi.string().guid().required(),
+          name:Joi.string().required(),
+          creation_date:Joi.date().required(),
+          deleted_date:Joi.date(),
+          creator:Joi.string().guid().required(),
+          state:Joi.string().required(),
+          content:Joi.string().required(),
+          topic:Joi.string().required()
+
+        }
+      }
 
     }  
   },
+  //PUT /posts/
   {
     method: 'PUT',
-    path: '/posts',
+    path: '/posts/',
     handler: controllers.posts.put,
     options: {
       cors : true,
-      description: 'update posts',
+      description: 'Update one post',
       tags: ['api'], 
-      auth: 'jwt'
+      auth: 'jwt',
+      validate:{
+        query:{
+          id:Joi.string().guid().required()        
+        },
+        payload:{
+          deleted_date:Joi.date(),
+          state:Joi.string(),
+          content:Joi.string()
+        }
+      }
 
     }  
   },
+  //DELETE /posts/
   {
     method: 'DELETE',
-    path: '/posts',
+    path: '/posts/',
     handler: controllers.posts.delete,
     options: {
       cors : true,
-      description: 'delete posts',
+      description: 'Delete  one post',
       tags: ['api'], 
-      auth: 'jwt'
+      auth: 'jwt',
+      validate:{
+        query:{
+          id:Joi.string().guid().required(),        
+        }
+      }
 
     }  
   }

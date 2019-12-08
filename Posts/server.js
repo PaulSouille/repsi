@@ -36,7 +36,6 @@ const validateUser = async (decoded, request) => {
   };
 };
 
-console.log(process.env.frontUrl);
 
 const server = new Hapi.Server({
   host: process.env.host,
