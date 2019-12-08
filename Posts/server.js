@@ -12,30 +12,35 @@ const internals = {
   templatePath: '.'
 };
 
-if(process.env.NODE_ENV != 'production'){
+if (process.env.NODE_ENV != 'production') {
   require('dotenv').config()
 }
 
 
 const validateUser = async (decoded, request) => {
-  console.log('test');
   if (decoded && decoded.sub) {
-      return decoded.scope
-          ? {
-              isValid: true,
-              credentials: {
-                  scope: decoded.scope.split(' ')
-              }
-          }
-          : { isValid: true };
+    return decoded.scope ?
+      {
+        isValid: true,
+        credentials: {
+          scope: decoded.scope.split(' ')
+        }
+      } :
+      {
+        isValid: true
+      };
   }
 
-  return { isValid: false };
+  return {
+    isValid: false
+  };
 };
+
 
 const server = new Hapi.Server({
   host: process.env.host,
   port: process.env.port,
+  routes: {cors: {origin: ['*']} }
 });
 
 
@@ -63,21 +68,21 @@ internals.main = async () => {
   server.auth.strategy('jwt', 'jwt', {
     complete: true,
     key: jwksRsa.hapiJwt2KeyAsync({
-        cache: true,
-        rateLimit: true,
-        jwksRequestsPerMinute: 5,
-        jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`,
-      }),
+      cache: true,
+      rateLimit: true,
+      jwksRequestsPerMinute: 5,
+      jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`,
+    }),
     verifyOptions: {
       audience: process.env.AUTH0_AUDIENCE,
-        issuer: `https://${process.env.AUTH0_DOMAIN}/`,
-        algorithms: ['RS256']
+      issuer: `https://${process.env.AUTH0_DOMAIN}/`,
+      algorithms: ['RS256']
     },
     validate: validateUser
   });
 
   server.auth.default('jwt');
-  
+
   await server.register([
     Inert,
     Vision,
@@ -87,13 +92,14 @@ internals.main = async () => {
     }
 
   ]);
- 
+
 
   await server.start();
   initDb(() => {
     console.log('Server is running at ' + server.info.uri);
     console.log("NODE_ENV : ", process.env.NODE_ENV);
   });
+
   server.route(routes);
 
 }

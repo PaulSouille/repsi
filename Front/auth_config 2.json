@@ -1,0 +1,6 @@
+{
+    "clientId": "th0URTfK5wUvH0Bm4fy4B1goYBsAFaCG",
+    "domain": "dev-1x2jzvjx.eu.auth0.com",
+    "audience": "http://api.paulsouille.fr",
+    "callback_url": "http://localhost:3000/callback"
+}
