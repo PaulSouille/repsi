@@ -111,3 +111,29 @@
   .comment_header{
     font-size: 12px;
   }
+
+  .logout_home{
+    max-width: 400px;
+  }
+  .main_logout_home{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:#222121;
+  }
+
+  mat-card{
+    top: -25%;
+    background-color:#111 !important;
+  }
+
+  mat-card-title{
+    color:white;
+  }
+  mat-card-content{
+    color:white;
+  }
+  mat-card-actions > button{
+    color:white;
+  }

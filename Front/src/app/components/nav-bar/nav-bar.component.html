@@ -20,25 +20,19 @@
         id="navbarNav"
         [ngbCollapse]="isCollapsed"
       >
+
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a routerLink="/" class="nav-link">Accueil</a>
+            <a routerLink="/" class="nav-link">rEpsi</a>
           </li>
+
+
+
 
         </ul>
 
           <ul class="navbar-nav d-none d-md-block">
-            <!-- Login button: show if NOT authenticated -->
-            <li class="nav-item" *ngIf="auth.loggedIn === false">
-              <button
-                id="qsLoginBtn"
-                class="btn btn-primary btn-margin"
-                (click)="auth.login()"
-              >
-                Log in
-              </button>
-            </li>
-            <!-- / Login button -->
+
 
           <!-- Fullsize dropdown: show if authenticated -->
           <li class="nav-item dropdown" *ngIf="auth.userProfile$ | async as profile" ngbDropdown>

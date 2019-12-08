@@ -1,43 +1,40 @@
-<div class="container" *ngIf="auth.auth0Client$ | async">
+<div class="container" *ngIf="isAuth && !isLoading; else loggedOut">
   <div class="next-steps my-5">
-    <div class="row">
+
+
+
+
+
+    <div class="row" *ngFor="let post of posts">
       <div class="col-md-7 mb-2 topic">
         <h6 class="mb-3">
           <a href="">
             <fa-icon [icon]="faReddit"></fa-icon>
-            r/programming
-
+            r/{{post.topic}}
           </a>
-          <span class="posted_by">
-              - Posted by <a href="">u/[user]</a> [hours] hours ago
+          <span class="posted_by" >
+              - Posted by <a href="">u/{{post.creator}}</a> {{post.creation_date}}
             </span>
         </h6>
         <p>
-          [topic question]
+          
         </p>
         <div class="footer_topic">
-            <span class="footer_comments">
-              <fa-icon [icon]="faCommentAlt"></fa-icon> [number] Comments
+            <span *ngIf="post.comments" class="footer_comments">
+              <fa-icon [icon]="faCommentAlt"></fa-icon> {{post.comments.length}} Comments
+            </span>
+            <span *ngIf="!post.comments" class="footer_comments">
+                <fa-icon [icon]="faCommentAlt"></fa-icon> 0 Comments
             </span>
           <span class="footer_comments">
-              <fa-icon [icon]="faArrowUp"></fa-icon> [number]
+              <fa-icon [icon]="faThumbsUp"></fa-icon> 1
             </span>
-          <span class="footer_comments">
-              <fa-icon [icon]="faArrowDown"></fa-icon> [number]
-            </span>
-          <span class="footer_share">
-              <fa-icon [icon]="faShare"></fa-icon> Share
-            </span>
-          <span class="footer_save">
-              <fa-icon [icon]="faSave"></fa-icon> Save
-            </span>
-          <span class="footer_more">
-              ...
-            </span>
+ 
         </div>
       </div>
-
     </div>
+
+
 
     <div class="row">
       <div class="col-md-7 mb-2 topic">
@@ -84,42 +81,6 @@
           </div>
         </div>
       </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       <div class="col-md-4 topic_side">
         <div class="row topic_row">
             <div class="topic_header">
@@ -187,3 +148,26 @@
     </div>
   </div>
   </div>
+  <ng-template #loggedOut>
+    <div class="main_logout_home" *ngIf='!isLoading'> 
+      <mat-card class="logout_home">
+          <mat-card-header>
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title>Bienvenue sur rEpsi !</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                  Connecte toi pour accéder aux topics, partager du contenu et liker tes postes préférés !
+              </mat-card-content>
+              <mat-card-actions>
+                  <button mat-button (click)="auth.login()" id="login">Me connecter</button>
+                </mat-card-actions>
+      </mat-card>
+      </div>
+
+    
+        </ng-template>
+
+              
+              
+        <div class="main_logout_home" *ngIf='isLoading'> 
+          </div>
