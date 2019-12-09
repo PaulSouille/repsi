@@ -11,15 +11,12 @@ On these endpoints a CRUD services are enable.
  Docker with a kubernetes && auth0  you can pull our image [here]()
 ## Installing
 
-1- Clone the project
-```git clone ```
----
-2- Go on the folder Posts
----
-3- Install the package
+1. Clone the project
+```git clone https://github.com/PaulSouille/repsi.git```
+2. Go on the folder Posts
+3. Install the package
 ```npm install ```
----
-4-Initiate your environment variable 
+4. Initiate your environment variable 
 * dbHost: server host of database
 * dbPort: server port of database 
 * dbUser: user of your database
