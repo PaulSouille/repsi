@@ -68,7 +68,8 @@ export class HomeComponent implements OnInit {
   async addComment(postId,$event){
       let comment_add = $event.target.closest('.add_comment');
       let textarea = comment_add.getElementsByClassName('add_comment_content')[0];
-      this.postsService.addComment(postId,localStorage.getItem('userId'),textarea.value)
+      this.postsService.addComment(postId,localStorage.getItem('userId'),textarea.value);
+      this.loadPost();
   }
 
   async addLike(postId){
