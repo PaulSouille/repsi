@@ -10,7 +10,7 @@ export class LikesService  {
   ) {
    }
 
-   countPostLikes(id_post: string): Promise<PostLikes> {
+   countParentLikes(id_post: string): Promise<PostLikes> {
     return this.http.get<PostLikes>(`likes/${id_post}/count`).toPromise();
   }
 

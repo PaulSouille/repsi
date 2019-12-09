@@ -1,8 +1,10 @@
 <div class="container" *ngIf="isLoading">
 
-  <mat-spinner ></mat-spinner>
+  <mat-spinner></mat-spinner>
 </div>
 <div class="container" *ngIf="isAuth && !isLoading; else loggedOut">
+  <button class="add_post_button" (click)="addPost()" mat-raised-button color="primary">Ajouter un post</button>
+
   <div class="next-steps my-5">
     <div class="row" *ngFor="let post of posts">
       <div class="col-md-7 mb-2 topic">
@@ -26,15 +28,21 @@
                 <fa-icon [icon]="faCommentAlt"></fa-icon> 0 Comments
             </span>
           <span *ngIf="post.is_liked_by_user" class="footer_comments">
-              <fa-icon class="liked" (click)="deleteLikePost(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
+              <fa-icon class="liked" (click)="deleteLike(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
             </span>
             <span *ngIf="!post.is_liked_by_user" class="footer_comments">
-              <fa-icon (click)="likePost(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
+              <fa-icon (click)="addLike(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
             </span>
         </div>
         <div class="comment" *ngFor="let comment of post.comments">
           <div class="comment_header">
-            <span>{{comment.creator_comment.firstname}} {{comment.creator_comment.lastname}} - [number] points - {{comment.creation_date}}</span>
+            <span>{{comment.creator_user.firstname}} {{comment.creator_user.lastname}} - [number] points - {{comment.creation_date}} </span>
+            <span *ngIf="comment.is_liked_by_user" class="footer_comments">
+                <fa-icon class="liked" (click)="deleteLike(comment.id)" [icon]="faThumbsUp"></fa-icon> {{comment.number_likes}}
+              </span>
+              <span *ngIf="!comment.is_liked_by_user" class="footer_comments">
+                <fa-icon (click)="addLike(comment.id)" [icon]="faThumbsUp"></fa-icon> {{comment.number_likes}}
+              </span>
           </div>
           <div class="comment_content">
             <span>{{comment.content}}</span>
@@ -113,6 +121,7 @@
     </div>
   </div>
   </div>
+
   <ng-template #loggedOut>
     <div class="main_logout_home" *ngIf='!isLoading'> 
       <mat-card class="logout_home">

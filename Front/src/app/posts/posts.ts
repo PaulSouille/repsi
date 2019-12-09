@@ -18,8 +18,10 @@ export interface Comment{
     id: string;
     content : string;
     creator : string;
-    creator_comment: User;
+    creator_user: User;
     creation_date : string;
     deleted_date: string;
     comment_id : string;
+    number_likes: string;
+    is_liked_by_user: boolean;
 } 
