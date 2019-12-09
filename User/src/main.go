@@ -16,9 +16,7 @@ func main() {
 	jwtMiddleware := auth0.Initiate()
 
 	//Add an user to database
-	router.Handle("/users", negroni.New(
-		negroni.HandlerFunc(jwtMiddleware.HandlerWithNext),
-		negroni.Wrap(http.HandlerFunc(user.Create)))).Methods("POST")
+	router.HandleFunc("/users", user.Create).Methods("POST")
 
 	//Get an user by his mail address
 	router.Handle("/users/{user-mail}", negroni.New(
