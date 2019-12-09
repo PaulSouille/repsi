@@ -17,6 +17,15 @@ export class LikesService  {
   isLikedByUser(parentId, userId): Promise<LikesUser>{
     return this.http.get<LikesUser>(`likes/${parentId}/${userId}`).toPromise();
   }
+  addLike(parentId, userId): Promise<any>{
+    return this.http.put(`likes/`,{
+      parentid: parentId,
+      userid: userId
+    }).toPromise();
+  }
 
+  removeLike(parentId, userId){
+    
+  }
 
 }

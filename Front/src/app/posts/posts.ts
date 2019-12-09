@@ -1,6 +1,6 @@
 import { User } from '../users/users';
 
-export interface Post     {
+export interface Post {
     id: string;
     comments: Comment[];
     content: string;

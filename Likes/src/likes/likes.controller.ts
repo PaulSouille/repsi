@@ -59,8 +59,6 @@ export class LikesController {
         validateSchema(like, Joi.object({
             parentid:  Joi.string().regex(pattern).required(),
             userid: Joi.string().regex(pattern).required(),
-            id: Joi.string().regex(pattern).required(),
-
         }).unknown(false));
         const data = await this.likesService.removeLike(like).then(data=>{
             return data;
