@@ -22,6 +22,7 @@ export interface Comment{
     creation_date : string;
     deleted_date: string;
     comment_id : string;
+    post_id : string;
     number_likes: string;
     is_liked_by_user: boolean;
 } 

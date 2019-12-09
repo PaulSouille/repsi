@@ -179,3 +179,7 @@ mat-spinner{
 .show{
   display: block;
 }
+
+.footer_comments:hover{
+  cursor: pointer;
+}
