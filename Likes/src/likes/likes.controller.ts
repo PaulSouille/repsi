@@ -17,7 +17,6 @@ export class LikesController {
     @Get()
     @Redirect('/likes/documentation')
     documentation(){
-        
     }
 
     @Get(':parentId/count')
@@ -26,6 +25,16 @@ export class LikesController {
         validateSchema(params.parentId, Joi.string().regex(pattern).required());
         const count = await this.likesService.countEntity(params.parentId);
         return {data:{parentId: params.parentId, numberLikes: count}};
+
+    }
+
+    @Get(':parentId/:userId')
+    @UseGuards(AuthGuard('jwt'))
+    async isLikedByUser(@Param() params): Promise<Object> {
+        validateSchema(params.parentId, Joi.string().regex(pattern).required());
+        validateSchema(params.userId, Joi.string().regex(pattern).required());
+        const isLikedByUser = await this.likesService.isLikesByUser(params.parentId, params.userId);
+        return {data:{parentId: params.parentId, userId: params.userId, isLikedByUser}};
 
     }
 

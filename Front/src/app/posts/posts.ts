@@ -10,5 +10,5 @@ export interface Post     {
     name: string;
     state: string;
     topic: string;
-    number_likes;
+    number_likes: string;
 }

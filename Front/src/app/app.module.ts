@@ -20,6 +20,7 @@ import { UsersComponent } from './users/users.component';
 import { LikesComponent } from './likes/likes.component';
 import { AddPostComponent } from './posts/add-post/add-post.component';
 import { PostsService } from './posts/posts.service';
+import { LikesService } from './likes/likes.service';
 
 export function hljsLanguages() {
   return [{ name: 'json', func: json }];
@@ -52,7 +53,8 @@ export function hljsLanguages() {
     MatCardModule
   ],
   providers: [
-    PostsService
+    PostsService,
+    LikesService
   ],
   bootstrap: [AppComponent]
 })

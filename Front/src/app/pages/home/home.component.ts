@@ -4,6 +4,7 @@ import { faLink, faShare, faSave, faCommentAlt, faArrowUp, faArrowDown, faThumbs
 import { faReddit } from '@fortawesome/free-brands-svg-icons';
 import { PostsService } from 'src/app/posts/posts.service';
 import { Post } from 'src/app/posts/posts';
+import { LikesService } from 'src/app/likes/likes.service';
 
 @Component({
   selector: 'app-home',
@@ -33,8 +34,9 @@ export class HomeComponent implements OnInit {
     this.isLoading = true;
     this.isAuth = await this.auth.isAuthenticated$.toPromise();
     this.posts = await this.postsService.findPosts();
-    this.posts.map((post: Post)=>{
-      post.number_likes = this.likesService.countPostLikes(post.id);
+    this.posts.map(async (post: Post)=>{
+      const number_likes = await this.likesService.countPostLikes(post.id);
+      post.number_likes = number_likes.data.numberLikes;
     })
     this.isLoading = false;
     console.log(this.posts)

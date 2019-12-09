@@ -23,7 +23,7 @@ const validateUser = async (decoded, request) => {
       {
         isValid: true,
         credentials: {
-          scope: decoded.scope.split(' ')
+          scope: decoded.scope.split(',')
         }
       } :
       {

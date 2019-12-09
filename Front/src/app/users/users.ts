@@ -6,5 +6,4 @@ export interface User{
 	birthday:  string; 
 	country:   string;
 	language:  string;   
-
 }

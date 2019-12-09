@@ -12,6 +12,7 @@ if(process.env.NODE_ENV != 'production'){
   dotenv.config();
 }
 
+console.log(process.env)
 const cassandraOptions: ExpressCassandraModuleOptions = {
   clientOptions: {
     contactPoints: [process.env.DB_HOST],
