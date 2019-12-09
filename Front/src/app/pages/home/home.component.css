@@ -59,6 +59,10 @@
     background: white;
     border: 1px solid gray;
     border-radius: 5px;
+
+    position: absolute;
+    margin-left: 50%;
+    margin-top: -35%;
   }
 
   .topic_row {
@@ -182,4 +186,8 @@ mat-spinner{
 
 .footer_comments:hover{
   cursor: pointer;
+}
+
+.comment_info{
+  padding-right: 10px;
 }

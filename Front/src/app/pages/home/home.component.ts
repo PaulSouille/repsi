@@ -50,7 +50,6 @@ export class HomeComponent implements OnInit {
     
     let comment_div = main_div.getElementsByClassName("display")[0];
     let display = comment_div.getAttribute("comments");
-    console.log(display)
 
     //Hide or show comments
     if(display == "show"){
@@ -69,7 +68,6 @@ export class HomeComponent implements OnInit {
   async addComment(postId,$event){
       let comment_add = $event.target.closest('.add_comment');
       let textarea = comment_add.getElementsByClassName('add_comment_content')[0];
-      console.log(textarea)
       this.postsService.addComment(postId,localStorage.getItem('userId'),textarea.value)
   }
 
@@ -96,7 +94,6 @@ export class HomeComponent implements OnInit {
         const is_liked_by_user = await this.likesService.isLikedByUser(comment.id, localStorage.getItem('userId'))
         comment.is_liked_by_user = is_liked_by_user.data.isLikedByUser;
         comment.creator_user = await this.userService.getUserById(comment.creator);
-        console.log(comment)
       })
       const number_likes = await this.likesService.countParentLikes(post.id);
       post.number_likes = number_likes.data.numberLikes;

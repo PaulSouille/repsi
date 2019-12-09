@@ -1,154 +1,101 @@
-<div class="container" *ngIf="isLoading">
 
+
+<div class="container" *ngIf="isLoading">
   <mat-spinner></mat-spinner>
 </div>
 <div class="container" *ngIf="isAuth && !isLoading; else loggedOut">
   <button class="add_post_button" (click)="addPost()" mat-raised-button color="primary">Ajouter un post</button>
-
   <div class="next-steps my-5">
-      <div class="row" *ngFor="let post of posts">
+     <div class="row" *ngFor="let post of posts">
         <div class="col-md-7 mb-2 topic">
-          <h6 class="mb-3">
-            <a href="">
-              <fa-icon [icon]="faReddit"></fa-icon>
-              r/{{post.topic}}
-            </a>
-            <span class="posted_by" >
-                - Posted by <a href="">u/{{post.creator_user.firstname}} {{post.creator_user.lastname}}</a> {{post.creation_date}}
+           <h6 class="mb-3">
+              <a href="">
+                 <fa-icon [icon]="faReddit"></fa-icon>
+                 r/{{post.topic}}
+              </a>
+              <span class="posted_by" >
+              - Posted by <a href="">u/{{post.creator_user.firstname}} {{post.creator_user.lastname}}</a> {{post.creation_date}}
               </span>
-          </h6>
-          <p>
-            {{post.content}}
-          </p>
-          <div class="footer_topic">
+           </h6>
+           <p>
+              {{post.content}}
+           </p>
+           <div class="footer_topic">
               <span *ngIf="post.comments" class="footer_comments" (click)="hideComments($event)">
-                <fa-icon [icon]="faCommentAlt"></fa-icon> {{post.comments.length}} Comments
+              <fa-icon [icon]="faCommentAlt"></fa-icon>
+              {{post.comments.length}} Comments
               </span>
               <span *ngIf="!post.comments" class="footer_comments">
-                  <fa-icon [icon]="faCommentAlt"></fa-icon> 0 Comments
+                 <fa-icon [icon]="faCommentAlt"></fa-icon>
+                 0 Comments
               </span>
-            <span *ngIf="post.is_liked_by_user" class="footer_comments">
-                <fa-icon class="liked" (click)="deleteLike(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
+              <span *ngIf="post.is_liked_by_user" class="footer_comments">
+              <fa-icon class="liked" (click)="deleteLike(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
               </span>
               <span *ngIf="!post.is_liked_by_user" class="footer_comments">
-                <fa-icon (click)="addLike(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
+              <fa-icon (click)="addLike(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
               </span>
-          </div>
-          <div class="display hidden" comments="hidden">
-            <div class="comment" *ngFor="let comment of post.comments">
-              <div class="comment_header">
-                <span>{{comment.creator_user.firstname}} {{comment.creator_user.lastname}} - [number] points - {{comment.creation_date}} </span>
-                <span *ngIf="comment.is_liked_by_user" class="footer_comments">
-                    <fa-icon class="liked" (click)="deleteLike(comment.id)" [icon]="faThumbsUp"></fa-icon> {{comment.number_likes}}
-                  </span>
-                  <span *ngIf="!comment.is_liked_by_user" class="footer_comments">
-                    <fa-icon (click)="addLike(comment.id)" [icon]="faThumbsUp"></fa-icon> {{comment.number_likes}}
-                  </span>
+           </div>
+           <div class="display hidden" comments="hidden">
+              <div class="comment" *ngFor="let comment of post.comments">
+                 <div class="comment_header">
+                    <span class="comment_info">{{comment.creator_user.firstname}} {{comment.creator_user.lastname}}  {{comment.number_likes}} points - {{comment.creation_date}} </span>
+                    <span *ngIf="comment.is_liked_by_user" class="footer_comments">
+                    <fa-icon class="liked" (click)="deleteLike(comment.id)" [icon]="faArrowUp"></fa-icon>
+                    </span>
+                    <span *ngIf="!comment.is_liked_by_user" class="footer_comments">
+                    <fa-icon (click)="addLike(comment.id)" [icon]="faArrowUp"></fa-icon>
+                    </span>
+                 </div>
+                 <div class="comment_content">
+                    <span>{{comment.content}}</span>
+                 </div>
               </div>
-              <div class="comment_content">
-                <span>{{comment.content}}</span>
+              <div class="add_comment">
+                 <textarea class="add_comment_content" rows="4"></textarea>
+                 <button class="comment_btn" mat-raised-button color="primary" (click)="addComment(post.id,$event)">Commenter</button>
               </div>
-            </div>
-            <div class="add_comment">
-              <textarea class="add_comment_content" rows="4"></textarea>
-              <button class="comment_btn" mat-raised-button color="primary" (click)="addComment(post.id,$event)">Commenter</button>
-            </div>
-          </div>
+           </div>
         </div>
-    </div>
-
-
-    <div class="row">
-
-      <div class="col-md-4 topic_side">
-        <div class="row topic_row">
-            <div class="topic_header">
-              Community details
-            </div>
-            <div class="topic_info_all">
-              <div class="topic_info">
-                <span class="topic_info_name">
-                  <fa-icon [icon]="faReddit"></fa-icon> r/[topic]
-                </span>
-              </div>
-
-              <div class="topic_stats">
-              <span class="topic_stats_followers">
-                <fa-icon [icon]="faReddit"></fa-icon> [numbers]
-                <div>
-                  Followers
-                </div>
+     </div>
+     <div class="col-md-4 topic_side">
+        <div class="trending_header">
+           Trending communities
+        </div>
+        <div class="topic_info_all">
+           <div class="trending_info">
+              <span class="trending_info_name">
+                 <fa-icon [icon]="faReddit"></fa-icon>
               </span>
-              <span class="topic_stats_online">
-              <fa-icon [icon]="faReddit"></fa-icon> [numbers]
-              <div>
-                Online
-              </div>
-              </span>
-                <span class="topic_stats_birth">
-                <fa-icon [icon]="faReddit"></fa-icon> [date]
-                <div>
-                  Cake day
-                </div>
-              </span>
-              </div>
-
-              <button class="full_width light_blue" mat-raised-button color="primary">Join</button>
-            </div>
-          </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4 topic_side">
-        <div class="row topic_row">
-          <div class="trending_header">
-            Trending communities
-          </div>
-          <div class="topic_info_all">
-            <div class="trending_info">
-                <span class="trending_info_name">
-                  <fa-icon [icon]="faReddit"></fa-icon>
-                </span>
-                <div class="trending_line">
-                  <div class="trending_title">
+              <div class="trending_line">
+                 <div class="trending_title">
                     r/[topic]
-
                     <button class="light_blue" mat-raised-button color="primary">Join</button>
-                  </div>
-                  <div class="trending_members">
+                 </div>
+                 <div class="trending_members">
                     [members] members
-                  </div>
-                </div>
-
-            </div>
-          </div>
+                 </div>
+              </div>
+           </div>
         </div>
-      </div>
-    </div>
+     </div>
   </div>
+</div>
+<ng-template #loggedOut>
+  <div class="main_logout_home" *ngIf='!isLoading'>
+     <mat-card class="logout_home">
+        <mat-card-header>
+           <div mat-card-avatar class="example-header-image"></div>
+           <mat-card-title>Bienvenue sur rEpsi !</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+           Connecte toi pour accéder aux topics, partager du contenu et liker tes postes préférés !
+        </mat-card-content>
+        <mat-card-actions>
+           <button mat-button (click)="auth.login()" id="login">Me connecter</button>
+        </mat-card-actions>
+     </mat-card>
   </div>
-
-  <ng-template #loggedOut>
-    <div class="main_logout_home" *ngIf='!isLoading'> 
-      <mat-card class="logout_home">
-          <mat-card-header>
-              <div mat-card-avatar class="example-header-image"></div>
-              <mat-card-title>Bienvenue sur rEpsi !</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                  Connecte toi pour accéder aux topics, partager du contenu et liker tes postes préférés !
-              </mat-card-content>
-              <mat-card-actions>
-                  <button mat-button (click)="auth.login()" id="login">Me connecter</button>
-                </mat-card-actions>
-      </mat-card>
-      </div>
-
-    
-        </ng-template>
-
-              
-              
-        <div class="main_logout_home" *ngIf='isLoading'> 
-          </div>
+</ng-template>
+<div class="main_logout_home" *ngIf='isLoading'> </div>
 
