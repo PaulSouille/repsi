@@ -5,9 +5,9 @@ import { faReddit } from '@fortawesome/free-brands-svg-icons';
 import { PostsService } from 'src/app/posts/posts.service';
 import { Post } from 'src/app/posts/posts';
 import { LikesService } from 'src/app/likes/likes.service';
-import { Inject, Injectable } from '@angular/core';
-import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
+
 import { UsersService } from 'src/app/users/users.service';
+import { MatSpinner } from '@angular/material';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -47,16 +47,19 @@ export class HomeComponent implements OnInit {
   }
 
   async likePost(postId){
-    await this.likesService.addLike(postId, localStorage.getItem('userId'));
+    this.likesService.addLike(postId, localStorage.getItem('userId'));
     this.loadPost();
   }
 
   async deleteLikePost(postId){
-    this.likesService.removeLike
+    this.likesService.removeLike(postId, localStorage.getItem('userId'));
+    this.loadPost();
+
   }
 
 
   async loadPost(){
+    this.isLoading = true;
     this.posts = await this.postsService.findPosts();
     this.posts.map(async (post: Post, i)=>{
 

@@ -1,4 +1,7 @@
-{{isLoading}}
+<div class="container" *ngIf="isLoading">
+
+  <mat-spinner ></mat-spinner>
+</div>
 <div class="container" *ngIf="isAuth && !isLoading; else loggedOut">
   <div class="next-steps my-5">
     <div class="row" *ngFor="let post of posts">
@@ -23,7 +26,7 @@
                 <fa-icon [icon]="faCommentAlt"></fa-icon> 0 Comments
             </span>
           <span *ngIf="post.is_liked_by_user" class="footer_comments">
-              <fa-icon class="liked" (click)="likePost(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
+              <fa-icon class="liked" (click)="deleteLikePost(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
             </span>
             <span *ngIf="!post.is_liked_by_user" class="footer_comments">
               <fa-icon (click)="likePost(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
