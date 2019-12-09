@@ -32,18 +32,11 @@
               <fa-icon (click)="likePost(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
             </span>
         </div>
-
-
-        <div class="comment" *ngFor="let comment of post.comments">
-          <div class="comment_header">
-            <span>{{comment.creator_comment.firstname}} {{comment.creator_comment.lastname}} - [number] points - {{comment.creation_date}}</span>
-          </div>
-          <div class="comment_content">
-            <span>{{comment.content}}</span>
-          </div>
-        </div>
-        </div>
+      </div>
     </div>
+
+
+
     <div class="row">
 
       <div class="col-md-4 topic_side">
