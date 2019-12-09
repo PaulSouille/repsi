@@ -4,8 +4,6 @@ import { faLink, faShare, faSave, faCommentAlt, faArrowUp, faArrowDown, faThumbs
 import { faReddit } from '@fortawesome/free-brands-svg-icons';
 import { PostsService } from 'src/app/posts/posts.service';
 import { Post } from 'src/app/posts/posts';
-import { Comment } from 'src/app/posts/posts';
-
 import { LikesService } from 'src/app/likes/likes.service';
 
 import { UsersService } from 'src/app/users/users.service';
@@ -44,10 +42,7 @@ export class HomeComponent implements OnInit {
         localStorage.setItem('userId', user.uuid);
       });
       console.log(localStorage.getItem('userId'));
-
-
       this.loadPost();
-
     }
   }
 
