@@ -17,13 +17,14 @@ import (
 
 //User : structure of an user
 type User struct {
-	ID        string    `json:"id" db:"id"`
-	Firstname string    `json:"firstname" db:"firstname"`
-	Lastname  string    `json:"lastname" db:"lastname"`
-	Mail      string    `json:"mail" db:"mail"`
-	Birthday  time.Time `json:"birthday" db:"birthday"`
-	Country   string    `json:"country" db:"country"`
-	Language  string    `json:"language" db:"language"`
+	UUID      gocql.UUID `json:"uuid" db:"uuid"`
+	Auth0_id  string     `json:"auth0_id" db:"auth0_id"`
+	Firstname string     `json:"firstname" db:"firstname"`
+	Lastname  string     `json:"lastname" db:"lastname"`
+	Mail      string     `json:"mail" db:"mail"`
+	Birthday  time.Time  `json:"birthday" db:"birthday"`
+	Country   string     `json:"country" db:"country"`
+	Language  string     `json:"language" db:"language"`
 }
 
 //Session :
@@ -46,10 +47,10 @@ func Create(w http.ResponseWriter, r *http.Request) {
 
 	//Marshal the POST values into our user
 	json.Unmarshal(body, &user)
-
+	fmt.Println(user)
 	//Insert our new user into the database
-	if err := Session.Query("INSERT INTO users.users(id, email, birthday, country, firstname, language, lastname) VALUES(?, ?, ?, ?, ?, ?, ?)",
-		gocql.TimeUUID(), user.Mail, user.Birthday, user.Country, user.Firstname, user.Language, user.Lastname).Exec(); err != nil {
+	if err := Session.Query("INSERT INTO users.users(uuid,auth0_id, email, birthday, country, firstname, language, lastname) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
+		gocql.TimeUUID(), user.Auth0_id, user.Mail, user.Birthday, user.Country, user.Firstname, user.Language, user.Lastname).Exec(); err != nil {
 		panic(err)
 	}
 
@@ -72,7 +73,31 @@ func Search(w http.ResponseWriter, r *http.Request) {
 
 	//Query the database and marshall the result into our empty user var
 	if err := Session.Query(`SELECT * FROM users.users WHERE email = ? ALLOW FILTERING`,
-		email).Scan(&user.ID, &user.Mail, &user.Birthday, &user.Country, &user.Firstname, &user.Language, &user.Lastname); err != nil {
+		email).Scan(&user.UUID, &user.Mail, &user.Auth0_id, &user.Birthday, &user.Country, &user.Firstname, &user.Language, &user.Lastname); err != nil {
+		panic(err)
+	}
+
+	//Write json object of the User into the response
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(user)
+}
+
+//SearchId :
+func SearchID(w http.ResponseWriter, r *http.Request) {
+	//Init cassandra connection and wait until we're done
+	Session = app.Init()
+	defer Session.Close()
+
+	//Init empty user
+	var user User
+
+	//Retrieve get parameter
+	params := mux.Vars(r)
+	email := params["id"]
+
+	//Query the database and marshall the result into our empty user var
+	if err := Session.Query(`SELECT * FROM users.users WHERE uuid = ? ALLOW FILTERING`,
+		email).Scan(&user.UUID, &user.Auth0_id, &user.Mail, &user.Birthday, &user.Country, &user.Firstname, &user.Language, &user.Lastname); err != nil {
 		panic(err)
 	}
 
@@ -131,13 +156,13 @@ func Update(w http.ResponseWriter, r *http.Request) {
 
 	//Delete the old user to update it
 	if err := Session.Query(`DELETE FROM users.users WHERE id = ? and email = ?`,
-		user.ID, user.Mail).Exec(); err != nil {
+		user.UUID, user.Mail).Exec(); err != nil {
 		log.Fatal(err)
 	}
 
 	//Insert the updated user into the database
 	if err := Session.Query("INSERT INTO users.users(id, email, birthday, country, firstname, language, lastname) VALUES(?, ?, ?, ?, ?, ?, ?)",
-		gocql.TimeUUID(), user.Mail, user.Birthday, user.Country, user.Firstname, user.Language, user.Lastname).Exec(); err != nil {
+		user.UUID, user.Auth0_id, user.Mail, user.Birthday, user.Country, user.Firstname, user.Language, user.Lastname).Exec(); err != nil {
 		panic(err)
 	}
 
