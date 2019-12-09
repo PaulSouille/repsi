@@ -40,7 +40,7 @@ const validateUser = async (decoded, request) => {
 const server = new Hapi.Server({
   host: process.env.host,
   port: process.env.port,
-  routes: {cors: {origin: ['*']} }
+  routes: {cors: {origin: process.env.frontUrl.split(',')} }
 });
 
 

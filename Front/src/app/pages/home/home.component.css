@@ -137,3 +137,37 @@
   mat-card-actions > button{
     color:white;
   }
+
+  .liked{
+    color:blue;
+  }
+
+ .container {
+   height:100%;
+ }
+ 
+mat-spinner{
+  margin-left:50%;
+  margin-top:20%;
+}
+
+.add_post_button{
+  position: fixed;
+  margin-left: 80%;
+  top: 90%;
+}
+
+.add_comment_content{
+  width: 100%;
+}
+
+.add_comment{
+  margin-top: 20px;
+}
+
+.comment_btn{
+  margin-top: 0px;
+  width: fit-content;
+  float: right;
+  background: #0d47a1;
+}

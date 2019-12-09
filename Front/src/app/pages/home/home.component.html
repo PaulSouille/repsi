@@ -1,86 +1,63 @@
+<div class="container" *ngIf="isLoading">
+
+  <mat-spinner></mat-spinner>
+</div>
 <div class="container" *ngIf="isAuth && !isLoading; else loggedOut">
+  <button class="add_post_button" (click)="addPost()" mat-raised-button color="primary">Ajouter un post</button>
+
   <div class="next-steps my-5">
-
-
-
-
-
-    <div class="row" *ngFor="let post of posts">
-      <div class="col-md-7 mb-2 topic">
-        <h6 class="mb-3">
-          <a href="">
-            <fa-icon [icon]="faReddit"></fa-icon>
-            r/{{post.topic}}
-          </a>
-          <span class="posted_by" >
-              - Posted by <a href="">u/{{post.creator}}</a> {{post.creation_date}}
-            </span>
-        </h6>
-        <p>
-          
-        </p>
-        <div class="footer_topic">
-            <span *ngIf="post.comments" class="footer_comments">
-              <fa-icon [icon]="faCommentAlt"></fa-icon> {{post.comments.length}} Comments
-            </span>
-            <span *ngIf="!post.comments" class="footer_comments">
-                <fa-icon [icon]="faCommentAlt"></fa-icon> 0 Comments
-            </span>
-          <span class="footer_comments">
-              <fa-icon [icon]="faThumbsUp"></fa-icon> 1
-            </span>
- 
+      <div class="row" *ngFor="let post of posts">
+        <div class="col-md-7 mb-2 topic">
+          <h6 class="mb-3">
+            <a href="">
+              <fa-icon [icon]="faReddit"></fa-icon>
+              r/{{post.topic}}
+            </a>
+            <span class="posted_by" >
+                - Posted by <a href="">u/{{post.creator_user.firstname}} {{post.creator_user.lastname}}</a> {{post.creation_date}}
+              </span>
+          </h6>
+          <p>
+            {{post.content}}
+          </p>
+          <div class="footer_topic">
+              <span *ngIf="post.comments" class="footer_comments" (click)="hideComment($event)">
+                <fa-icon [icon]="faCommentAlt"></fa-icon> {{post.comments.length}} Comments
+              </span>
+              <span *ngIf="!post.comments" class="footer_comments">
+                  <fa-icon [icon]="faCommentAlt"></fa-icon> 0 Comments
+              </span>
+            <span *ngIf="post.is_liked_by_user" class="footer_comments">
+                <fa-icon class="liked" (click)="deleteLike(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
+              </span>
+              <span *ngIf="!post.is_liked_by_user" class="footer_comments">
+                <fa-icon (click)="addLike(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
+              </span>
+          </div>
+          <div class="comment" *ngFor="let comment of post.comments">
+            <div class="comment_header">
+              <span>{{comment.creator_user.firstname}} {{comment.creator_user.lastname}} - [number] points - {{comment.creation_date}} </span>
+              <span *ngIf="comment.is_liked_by_user" class="footer_comments">
+                  <fa-icon class="liked" (click)="deleteLike(comment.id)" [icon]="faThumbsUp"></fa-icon> {{comment.number_likes}}
+                </span>
+                <span *ngIf="!comment.is_liked_by_user" class="footer_comments">
+                  <fa-icon (click)="addLike(comment.id)" [icon]="faThumbsUp"></fa-icon> {{comment.number_likes}}
+                </span>
+            </div>
+            <div class="comment_content">
+              <span>{{comment.content}}</span>
+            </div>
+          </div>
+          <div class="add_comment">
+            <textarea class="add_comment_content" rows="4"></textarea>
+            <button class="comment_btn" mat-raised-button color="primary">Commenter</button>
+          </div>
         </div>
-      </div>
     </div>
 
 
-
     <div class="row">
-      <div class="col-md-7 mb-2 topic">
-        <h6 class="mb-3">
-          <a href="">
-            <fa-icon [icon]="faReddit"></fa-icon>
-            r/programming
 
-          </a>
-          <span class="posted_by">
-              - Posted by <a href="">u/[user]</a> [hours] hours ago
-            </span>
-        </h6>
-        <p>
-          [topic question]
-        </p>
-        <div class="footer_topic">
-            <span class="footer_comments">
-              <fa-icon [icon]="faCommentAlt"></fa-icon> [number] Comments
-            </span>
-          <span class="footer_comments">
-              <fa-icon [icon]="faArrowUp"></fa-icon> [number]
-            </span>
-          <span class="footer_comments">
-              <fa-icon [icon]="faArrowDown"></fa-icon> [number]
-            </span>
-          <span class="footer_share">
-              <fa-icon [icon]="faShare"></fa-icon> Share
-            </span>
-          <span class="footer_save">
-              <fa-icon [icon]="faSave"></fa-icon> Save
-            </span>
-          <span class="footer_more">
-              ...
-            </span>
-        </div>
-
-        <div class="comment">
-          <div class="comment_header">
-            <span>[pseudo] [number] points - [number] hours ago</span>
-          </div>
-          <div class="comment_content">
-            <span>Incoryable contenu</span>
-          </div>
-        </div>
-      </div>
       <div class="col-md-4 topic_side">
         <div class="row topic_row">
             <div class="topic_header">
@@ -148,6 +125,7 @@
     </div>
   </div>
   </div>
+
   <ng-template #loggedOut>
     <div class="main_logout_home" *ngIf='!isLoading'> 
       <mat-card class="logout_home">
@@ -171,3 +149,4 @@
               
         <div class="main_logout_home" *ngIf='isLoading'> 
           </div>
+
