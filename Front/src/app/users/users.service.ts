@@ -13,7 +13,7 @@ export class UsersService  {
    getUserByEmail(email: string): Promise<User> {
     return this.http.get<User>(`users/${email}`).toPromise();
   }
-  getUserById(id: string): Promise<User>{
+    getUserById(id: string): Promise<User>{
     return this.http.get<User>(`users/id/${id}`).toPromise();
   }
 

@@ -27,10 +27,10 @@
                 <fa-icon [icon]="faCommentAlt"></fa-icon> 0 Comments
             </span>
           <span *ngIf="post.is_liked_by_user" class="footer_comments">
-              <fa-icon [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
+              <fa-icon class="liked" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
             </span>
             <span *ngIf="!post.is_liked_by_user" class="footer_comments">
-              <fa-icon [icon]="faThumbsDown"></fa-icon> {{post.number_likes}}
+              <fa-icon [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
             </span>
         </div>
       </div>

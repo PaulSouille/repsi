@@ -42,8 +42,8 @@ export class AuthService {
   loggedIn: boolean = null;
 
   constructor(private router: Router,
-    @Inject(LOCAL_STORAGE) private storage: StorageService,
-    private userService: UsersService) {
+    public userService: UsersService
+    ) {
     // On initial load, check authentication state with authorization server
     // Set up local auth streams if user is already authenticated
     this.localAuthSetup();
@@ -95,10 +95,7 @@ export class AuthService {
         redirect_uri: `${window.location.origin}`,
         appState: { target: redirectPath }
       });
-      this.userProfile$.subscribe(async (profile)=>{
-        const user = await this.userService.getUserByEmail(profile.email)
-        this.storage.set('user', user);
-      });
+
     });
   }
 
