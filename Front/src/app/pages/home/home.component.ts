@@ -46,7 +46,25 @@ export class HomeComponent implements OnInit {
   }
 
   hideComments($event){
-    console.log($event.target)
+    let main_div = $event.target.closest(".topic");
+    let display = main_div.getAttribute("comments");
+    
+    let comment_div = main_div.getElementsByClassName("comment");
+    console.log(comment_div)
+    if(display == "show"){
+      main_div.setAttribute("comments","hidden")
+      for (let comment of comment_div) {
+        comment.classList.remove('show')
+        comment.classList.add('hidden')
+      }
+    }else{
+      main_div.setAttribute("comments","show")
+      for (let comment of comment_div) {
+        comment.classList.remove('hidden')
+        comment.classList.add('show')
+      }
+    }
+
   }
 
   async addLike(postId){

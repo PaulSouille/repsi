@@ -7,7 +7,7 @@
 
   <div class="next-steps my-5">
       <div class="row" *ngFor="let post of posts">
-        <div class="col-md-7 mb-2 topic">
+        <div class="col-md-7 mb-2 topic" comments="hide">
           <h6 class="mb-3">
             <a href="">
               <fa-icon [icon]="faReddit"></fa-icon>
@@ -21,7 +21,7 @@
             {{post.content}}
           </p>
           <div class="footer_topic">
-              <span *ngIf="post.comments" class="footer_comments" (click)="hideComment($event)">
+              <span *ngIf="post.comments" class="footer_comments" (click)="hideComments($event)">
                 <fa-icon [icon]="faCommentAlt"></fa-icon> {{post.comments.length}} Comments
               </span>
               <span *ngIf="!post.comments" class="footer_comments">
@@ -34,7 +34,7 @@
                 <fa-icon (click)="addLike(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
               </span>
           </div>
-          <div class="comment" *ngFor="let comment of post.comments">
+          <div class="comment hidden" *ngFor="let comment of post.comments">
             <div class="comment_header">
               <span>{{comment.creator_user.firstname}} {{comment.creator_user.lastname}} - [number] points - {{comment.creation_date}} </span>
               <span *ngIf="comment.is_liked_by_user" class="footer_comments">

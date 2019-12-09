@@ -171,3 +171,11 @@ mat-spinner{
   float: right;
   background: #0d47a1;
 }
+
+.hidden{
+  display: none;
+}
+
+.show{
+  display: block;
+}
