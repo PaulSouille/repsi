@@ -109,12 +109,12 @@ module.exports = {
 	
 
 	},
-	/*
-	 *  delete: delete one comment into one post
-	 *  @return: post
-	 *  @param: hapi.Request request
-	 *  @param: hapi.Response reply
-	 */
+		/*
+		*  delete: delete one comment into one post
+		*  @return: post
+		*  @param: hapi.Request request
+		*  @param: hapi.Response reply
+		*/
 	delete: async(request, reply)=>{
 		/*
 		 * post:post

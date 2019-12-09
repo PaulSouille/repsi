@@ -1,7 +1,11 @@
 const controllers = require('../controllers');
 const Joi = require('joi');
+/*
+  Endpoints: comment
+ */
+
 module.exports = [
-  //GET /device
+  //GET /posts/{postId}/comments
   {
     method: 'GET',
     path: '/posts/{postId}/comments',
@@ -19,6 +23,7 @@ module.exports = [
 
     }  
   },
+  //GET /posts/{postId}/comments/
   {
     method: 'GET',
     path: '/posts/{postId}/comments/',
@@ -39,6 +44,7 @@ module.exports = [
 
     }
   },
+  //POST /posts/{postId}/comments/
   {
     method: 'POST',
     path: '/posts/{postId}/comments/',
@@ -60,6 +66,7 @@ module.exports = [
 
     }  
   },
+  //PUT /posts/{postId}/comments/
   {
     method: 'put',
     path: '/posts/{postId}/comments/',
@@ -85,6 +92,7 @@ module.exports = [
 
     }  
   },
+  //DELETE /posts/{postId}/comments/
   {
     method: 'delete',
     path: '/posts/{postId}/comments/',
