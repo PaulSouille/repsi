@@ -19,7 +19,7 @@
           {{post.content}}
         </p>
         <div class="footer_topic">
-            <span *ngIf="post.comments" class="footer_comments">
+            <span *ngIf="post.comments" class="footer_comments" (click)="hideComment($event)">
               <fa-icon [icon]="faCommentAlt"></fa-icon> {{post.comments.length}} Comments
             </span>
             <span *ngIf="!post.comments" class="footer_comments">

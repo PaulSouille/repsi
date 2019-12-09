@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
   isLoading: boolean = false;
   private posts: Post[];
 
-
   constructor(public auth: AuthService,
             public postsService: PostsService,
             public likesService: LikesService,
@@ -47,6 +46,12 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  hideComment($event){
+    $event.target
+
+
+  }
+
   async likePost(postId){
     this.likesService.addLike(postId, localStorage.getItem('userId'));
     this.loadPost();
@@ -57,7 +62,6 @@ export class HomeComponent implements OnInit {
     this.loadPost();
 
   }
-
 
   async loadPost(){
     this.isLoading = true;
