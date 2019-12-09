@@ -4,6 +4,8 @@ import { faLink, faShare, faSave, faCommentAlt, faArrowUp, faArrowDown, faThumbs
 import { faReddit } from '@fortawesome/free-brands-svg-icons';
 import { PostsService } from 'src/app/posts/posts.service';
 import { Post } from 'src/app/posts/posts';
+import { Comment } from 'src/app/posts/posts';
+
 import { LikesService } from 'src/app/likes/likes.service';
 import { Inject, Injectable } from '@angular/core';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
@@ -44,6 +46,11 @@ export class HomeComponent implements OnInit {
       console.log(localStorage.getItem('userId'));
       this.posts = await this.postsService.findPosts();
       this.posts.map(async (post: Post)=>{
+        console.log(post)
+        post.comments.map(async (comment: Comment)=>{
+          comment.creator_comment = await this.userService.getUserById(comment.creator);
+        })
+
         const number_likes = await this.likesService.countPostLikes(post.id);
         post.number_likes = number_likes.data.numberLikes;
         const is_liked_by_user = await this.likesService.isLikedByUser(post.id, localStorage.getItem('userId'))
