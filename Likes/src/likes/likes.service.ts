@@ -28,4 +28,11 @@ export class LikesService {
       return await this.likesRepository.remove(likeToDelete).toPromise();
     }
 
+    public async isLikesByUser(parentid: string, userid: string): Promise<boolean>{
+      const like = await this.likesRepository.find({parentid,userid}).toPromise();
+      return new Promise((resolve, reject) => { 
+        resolve(like.length>0);
+       });   
+       }
+
 }

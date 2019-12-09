@@ -4,7 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HighlightModule } from 'ngx-highlightjs';
 import json from 'highlight.js/lib/languages/json';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {MatButtonModule} from '@angular/material';
+import {MatButtonModule, MatCardModule} from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +18,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PostsComponent } from './posts/posts.component';
 import { UsersComponent } from './users/users.component';
 import { LikesComponent } from './likes/likes.component';
+import { AddPostComponent } from './posts/add-post/add-post.component';
+import { PostsService } from './posts/posts.service';
+import { LikesService } from './likes/likes.service';
+import { UsersService } from './users/users.service';
+import { StorageServiceModule } from 'ngx-webstorage-service';
 
 export function hljsLanguages() {
   return [{ name: 'json', func: json }];
@@ -33,7 +38,8 @@ export function hljsLanguages() {
     LoadingComponent,
     PostsComponent,
     UsersComponent,
-    LikesComponent
+    LikesComponent,
+    AddPostComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,9 +51,15 @@ export function hljsLanguages() {
     }),
     FontAwesomeModule,
     MatButtonModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatCardModule,
+    StorageServiceModule
   ],
-  providers: [],
+  providers: [
+    PostsService,
+    LikesService,
+    UsersService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

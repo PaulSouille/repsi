@@ -24,6 +24,7 @@ export class AuthGuard implements CanActivate {
       tap(loggedIn => {
         if (!loggedIn) {
           this.auth.login(state.url);
+          
         }
       })
     );

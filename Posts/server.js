@@ -18,7 +18,6 @@ if (process.env.NODE_ENV != 'production') {
 
 
 const validateUser = async (decoded, request) => {
-  console.log('test');
   if (decoded && decoded.sub) {
     return decoded.scope ?
       {
@@ -41,6 +40,7 @@ const validateUser = async (decoded, request) => {
 const server = new Hapi.Server({
   host: process.env.host,
   port: process.env.port,
+  routes: {cors: {origin: process.env.frontUrl.split(',')} }
 });
 
 
@@ -99,14 +99,7 @@ internals.main = async () => {
     console.log('Server is running at ' + server.info.uri);
     console.log("NODE_ENV : ", process.env.NODE_ENV);
   });
-  server.route({
-    config: {
-      cors: {
-        origin: [process.env.frontUrl],
-        additionalHeaders: ['cache-control', 'x-requested-with']
-      }
-    }
-  });
+
   server.route(routes);
 
 }
