@@ -5,3 +5,11 @@ export interface PostLikes {
     }
 
 }
+
+export interface LikesUser {
+    data: {
+        parentId:string;
+        userId: string;
+        isLikedByUser: boolean;
+    }
+}

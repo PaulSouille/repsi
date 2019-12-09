@@ -21,6 +21,8 @@ import { LikesComponent } from './likes/likes.component';
 import { AddPostComponent } from './posts/add-post/add-post.component';
 import { PostsService } from './posts/posts.service';
 import { LikesService } from './likes/likes.service';
+import { UsersService } from './users/users.service';
+import { StorageServiceModule } from 'ngx-webstorage-service';
 
 export function hljsLanguages() {
   return [{ name: 'json', func: json }];
@@ -50,11 +52,13 @@ export function hljsLanguages() {
     FontAwesomeModule,
     MatButtonModule,
     BrowserAnimationsModule,
-    MatCardModule
+    MatCardModule,
+    StorageServiceModule
   ],
   providers: [
     PostsService,
-    LikesService
+    LikesService,
+    UsersService
   ],
   bootstrap: [AppComponent]
 })
