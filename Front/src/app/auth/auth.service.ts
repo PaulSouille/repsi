@@ -97,7 +97,7 @@ export class AuthService {
       });
       this.userProfile$.subscribe(async (profile)=>{
         const user = await this.userService.getUserByEmail(profile.email)
-        this.storage.set('userId', user.id);
+        this.storage.set('user', user);
       });
     });
   }

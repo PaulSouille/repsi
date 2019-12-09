@@ -37,15 +37,18 @@ export class HomeComponent implements OnInit {
   async ngOnInit() {
     this.isLoading = true;
     this.isAuth = await this.auth.isAuthenticated$.toPromise();
-    console.log(this.storage.get('userId'));
-
+    const user = await this.userService.getUserById('paul.souille85@gmail.com')
+    console.log(user);
     if(this.isAuth){
       this.posts = await this.postsService.findPosts();
       this.posts.map(async (post: Post)=>{
+        console.log();
+
         const number_likes = await this.likesService.countPostLikes(post.id);
         post.number_likes = number_likes.data.numberLikes;
         const is_liked_by_user = await this.likesService.isLikedByUser(post.id, this.storage.get('userId'))
         post.is_liked_by_user = is_liked_by_user.data.isLikedByUser;
+        post.creator_user = await this.userService.getUserById(post.creator);
       })
     }
 
