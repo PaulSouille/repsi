@@ -54,7 +54,8 @@ export function hljsLanguages() {
     MatProgressSpinnerModule,
     BrowserAnimationsModule,
     MatCardModule,
-    StorageServiceModule
+    StorageServiceModule,
+    MatButtonModule
   ],
   providers: [
     PostsService,

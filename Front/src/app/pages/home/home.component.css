@@ -146,3 +146,13 @@
    height:100%;
  }
  
+mat-spinner{
+  margin-left:50%;
+  margin-top:20%;
+}
+
+.add_post_button{
+  position: fixed;
+  margin-left: 80%;
+  top: 90%;
+}
