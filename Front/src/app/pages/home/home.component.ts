@@ -7,9 +7,9 @@ import { Post } from 'src/app/posts/posts';
 import { Comment } from 'src/app/posts/posts';
 
 import { LikesService } from 'src/app/likes/likes.service';
-import { Inject, Injectable } from '@angular/core';
-import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
+
 import { UsersService } from 'src/app/users/users.service';
+import { MatSpinner } from '@angular/material';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -44,22 +44,39 @@ export class HomeComponent implements OnInit {
         localStorage.setItem('userId', user.uuid);
       });
       console.log(localStorage.getItem('userId'));
-      this.posts = await this.postsService.findPosts();
-      this.posts.map(async (post: Post)=>{
-        console.log(post)
-        post.comments.map(async (comment: Comment)=>{
-          comment.creator_comment = await this.userService.getUserById(comment.creator);
-        })
 
-        const number_likes = await this.likesService.countPostLikes(post.id);
-        post.number_likes = number_likes.data.numberLikes;
-        const is_liked_by_user = await this.likesService.isLikedByUser(post.id, localStorage.getItem('userId'))
-        post.is_liked_by_user = is_liked_by_user.data.isLikedByUser;
-        post.creator_user = await this.userService.getUserById(post.creator);
-      })
+
+      this.loadPost();
+
     }
+  }
 
-    this.isLoading = false;
+  async likePost(postId){
+    this.likesService.addLike(postId, localStorage.getItem('userId'));
+    this.loadPost();
+  }
 
+  async deleteLikePost(postId){
+    this.likesService.removeLike(postId, localStorage.getItem('userId'));
+    this.loadPost();
+
+  }
+
+
+  async loadPost(){
+    this.isLoading = true;
+    this.posts = await this.postsService.findPosts();
+    this.posts.map(async (post: Post, i)=>{
+
+      const number_likes = await this.likesService.countPostLikes(post.id);
+      post.number_likes = number_likes.data.numberLikes;
+      const is_liked_by_user = await this.likesService.isLikedByUser(post.id, localStorage.getItem('userId'))
+      post.is_liked_by_user = is_liked_by_user.data.isLikedByUser;
+      post.creator_user = await this.userService.getUserById(post.creator);
+      if(i==this.posts.length-1){
+        this.isLoading = false;
+      }
+      
+    })
   }
 }

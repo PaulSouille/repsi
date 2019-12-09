@@ -4,7 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HighlightModule } from 'ngx-highlightjs';
 import json from 'highlight.js/lib/languages/json';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {MatButtonModule, MatCardModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatSpinner, MatProgressSpinnerModule} from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -51,6 +51,7 @@ export function hljsLanguages() {
     }),
     FontAwesomeModule,
     MatButtonModule,
+    MatProgressSpinnerModule,
     BrowserAnimationsModule,
     MatCardModule,
     StorageServiceModule
