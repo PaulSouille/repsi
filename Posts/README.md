@@ -1,21 +1,25 @@
 # rEpsi.Posts
 Posts is an API for dealing with rEpsi.Front.
 Posts get endpoints of posts && comments.
-
+On these endpoints a CRUD services are enable. 
 # Getting Started
 
 ## Prerequisites
- A package manager ** # NPM ** 
+ A package manager # NPM 
  NodeJS 
  Docker image with Cassandra you can pull our image [here](http://link)
  Docker with a kubernetes && auth0  you can pull our image [here]()
 ## Installing
 
 1- Clone the project
-```bash git clone ```
-2- Install the package
-```bash npm install ```
-3-Initiate your environment variable 
+```git clone ```
+---
+2- Go on the folder Posts
+---
+3- Install the package
+```npm install ```
+---
+4-Initiate your environment variable 
 * dbHost: server host of database
 * dbPort: server port of database 
 * dbUser: user of your database
