@@ -7,7 +7,8 @@ import { Post } from 'src/app/posts/posts';
 import { LikesService } from 'src/app/likes/likes.service';
 
 import { UsersService } from 'src/app/users/users.service';
-import { MatSpinner } from '@angular/material';
+import { Comment } from 'src/app/posts/posts';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -34,7 +35,7 @@ export class HomeComponent implements OnInit {
             public userService: UsersService) {}
 
   async ngOnInit() {
-    this.isLoading = true;
+   // this.isLoading = true;
     this.isAuth = await this.auth.isAuthenticated$.toPromise();
     if(this.isAuth){
       this.auth.userProfile$.subscribe(async (profile)=>{
@@ -62,7 +63,10 @@ export class HomeComponent implements OnInit {
     this.isLoading = true;
     this.posts = await this.postsService.findPosts();
     this.posts.map(async (post: Post, i)=>{
-
+      console.log(post)
+      post.comments.map(async (comment: Comment)=>{
+        comment.creator_comment = await this.userService.getUserById(comment.creator);
+      })
       const number_likes = await this.likesService.countPostLikes(post.id);
       post.number_likes = number_likes.data.numberLikes;
       const is_liked_by_user = await this.likesService.isLikedByUser(post.id, localStorage.getItem('userId'))
