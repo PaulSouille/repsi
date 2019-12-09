@@ -45,6 +45,10 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  hideComments($event){
+    console.log($event.target)
+  }
+
   async addLike(postId){
     this.likesService.addLike(postId, localStorage.getItem('userId'));
     this.loadPost();
