@@ -44,6 +44,8 @@ const server = new Hapi.Server({
 });
 
 const swaggerOptions = {
+  swaggerUIPath:'/posts/swaggerui/',
+  jsonPath:'/posts/swagger.json',
   documentationPath:'/posts/documentation',
   info: {
     title: 'Documentation API',
