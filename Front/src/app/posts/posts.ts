@@ -26,3 +26,7 @@ export interface Comment{
     number_likes: string;
     is_liked_by_user: boolean;
 } 
+
+export interface PostData{
+    content: string;
+}

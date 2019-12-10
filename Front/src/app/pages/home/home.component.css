@@ -185,6 +185,7 @@ mat-spinner{
 
 .footer_comments:hover{
   cursor: pointer;
+  text-decoration: underline;
 }
 
 .comment_info{
