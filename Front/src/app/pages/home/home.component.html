@@ -5,9 +5,33 @@
 </div>
 <div class="container" *ngIf="isAuth && !isLoading; else loggedOut">
   <button class="add_post_button" (click)="openDialog()" mat-raised-button color="primary">Ajouter un post</button>
+  
+  <div class="col-md-3 topic_side">
+      <div class="trending_header">
+         Trending communities
+      </div>
+      <div class="topic_info_all">
+         <div class="trending_info">
+            <span class="trending_info_name">
+               <fa-icon [icon]="faReddit"></fa-icon>
+            </span>
+            <div class="trending_line">
+               <div class="trending_title">
+                  r/[topic]
+                  <button class="light_blue" mat-raised-button color="primary">Join</button>
+               </div>
+               <div class="trending_members">
+                  [members] members
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+
   <div class="next-steps my-5">
      <div class="row" *ngFor="let post of posts">
-        <div class="col-md-7 mb-2 topic">
+        <div class="col-md-8 mb-2 topic">
            <h6 class="mb-3">
               <a href="">
                  <fa-icon [icon]="faReddit"></fa-icon>
@@ -26,7 +50,7 @@
               <fa-icon [icon]="faCommentAlt"></fa-icon>
               {{post.comments.length}} Comments
               </span>
-              <span *ngIf="!post.comments" class="footer_comments">
+              <span *ngIf="!post.comments" class="footer_comments" (click)="hideComments($event)">
                  <fa-icon [icon]="faCommentAlt"></fa-icon>
                  0 Comments
               </span>
@@ -60,27 +84,7 @@
            </div>
         </div>
      </div>
-     <div class="col-md-4 topic_side">
-        <div class="trending_header">
-           Trending communities
-        </div>
-        <div class="topic_info_all">
-           <div class="trending_info">
-              <span class="trending_info_name">
-                 <fa-icon [icon]="faReddit"></fa-icon>
-              </span>
-              <div class="trending_line">
-                 <div class="trending_title">
-                    r/[topic]
-                    <button class="light_blue" mat-raised-button color="primary">Join</button>
-                 </div>
-                 <div class="trending_members">
-                    [members] members
-                 </div>
-              </div>
-           </div>
-        </div>
-     </div>
+     
   </div>
 </div>
 <ng-template #loggedOut>

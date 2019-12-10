@@ -59,10 +59,7 @@
     background: white;
     border: 1px solid gray;
     border-radius: 5px;
-
-    position: fixed;
-    margin-left: 40%;
-    top: 30%;
+    float: right;
   }
 
   .topic_row {

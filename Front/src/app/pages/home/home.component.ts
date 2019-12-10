@@ -63,7 +63,6 @@ export class HomeComponent implements OnInit {
 
   hideComments($event){
     let main_div = $event.target.closest(".topic");
-    
     let comment_div = main_div.getElementsByClassName("display")[0];
     let display = comment_div.getAttribute("comments");
 
