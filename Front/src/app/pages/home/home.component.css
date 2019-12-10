@@ -143,7 +143,7 @@
   }
 
   .liked{
-    color:blue;
+    color:#d9534f;
   }
 
  .container {
@@ -157,8 +157,9 @@ mat-spinner{
 
 .add_post_button{
   position: fixed;
-  margin-left: 80%;
   top: 90%;
+  z-index:1;
+  right: 40px;
 }
 
 .add_comment_content{
@@ -184,6 +185,7 @@ mat-spinner{
   display: block;
 }
 
+
 .footer_comments:hover{
   cursor: pointer;
 }
@@ -191,3 +193,12 @@ mat-spinner{
 .comment_info{
   padding-right: 10px;
 }
+
+.post_topic{
+  color: #d9534f;
+}
+
+.like:hover{
+  cursor: pointer;
+}
+
