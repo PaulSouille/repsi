@@ -47,24 +47,29 @@ export class HomeComponent implements OnInit {
 
   hideComments($event){
     let main_div = $event.target.closest(".topic");
-    let display = main_div.getAttribute("comments");
     
-    let comment_div = main_div.getElementsByClassName("comment");
-    console.log(comment_div)
+    let comment_div = main_div.getElementsByClassName("display")[0];
+    let display = comment_div.getAttribute("comments");
+
+    //Hide or show comments
     if(display == "show"){
-      main_div.setAttribute("comments","hidden")
-      for (let comment of comment_div) {
-        comment.classList.remove('show')
-        comment.classList.add('hidden')
-      }
+      comment_div.setAttribute("comments","hidden")
+      comment_div.classList.remove('show')
+      comment_div.classList.add('hidden')
+      
     }else{
-      main_div.setAttribute("comments","show")
-      for (let comment of comment_div) {
-        comment.classList.remove('hidden')
-        comment.classList.add('show')
-      }
+      comment_div.setAttribute("comments","show")
+      comment_div.classList.remove('hidden')
+      comment_div.classList.add('show')  
     }
 
+  }
+
+  async addComment(postId,$event){
+      let comment_add = $event.target.closest('.add_comment');
+      let textarea = comment_add.getElementsByClassName('add_comment_content')[0];
+      this.postsService.addComment(postId,localStorage.getItem('userId'),textarea.value);
+      this.loadPost();
   }
 
   async addLike(postId){
@@ -86,6 +91,7 @@ export class HomeComponent implements OnInit {
         comment.creator_user = await this.userService.getUserById(comment.creator);
         const number_likes = await this.likesService.countParentLikes(comment.id);
         comment.number_likes = number_likes.data.numberLikes;
+        comment.post_id = post.id;
         const is_liked_by_user = await this.likesService.isLikedByUser(comment.id, localStorage.getItem('userId'))
         comment.is_liked_by_user = is_liked_by_user.data.isLikedByUser;
         comment.creator_user = await this.userService.getUserById(comment.creator);
