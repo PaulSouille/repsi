@@ -87,15 +87,18 @@ export class HomeComponent implements OnInit {
     this.isLoading = true;
     this.posts = await this.postsService.findPosts();
     this.posts.map(async (post: Post, i)=>{
-      post.comments.map(async (comment: Comment)=>{
-        comment.creator_user = await this.userService.getUserById(comment.creator);
-        const number_likes = await this.likesService.countParentLikes(comment.id);
-        comment.number_likes = number_likes.data.numberLikes;
-        comment.post_id = post.id;
-        const is_liked_by_user = await this.likesService.isLikedByUser(comment.id, localStorage.getItem('userId'))
-        comment.is_liked_by_user = is_liked_by_user.data.isLikedByUser;
-        comment.creator_user = await this.userService.getUserById(comment.creator);
-      })
+      if(post.comments != null){
+        post.comments.map(async (comment: Comment)=>{
+          comment.creator_user = await this.userService.getUserById(comment.creator);
+          const number_likes = await this.likesService.countParentLikes(comment.id);
+          comment.number_likes = number_likes.data.numberLikes;
+          comment.post_id = post.id;
+          const is_liked_by_user = await this.likesService.isLikedByUser(comment.id, localStorage.getItem('userId'))
+          comment.is_liked_by_user = is_liked_by_user.data.isLikedByUser;
+          comment.creator_user = await this.userService.getUserById(comment.creator);
+        })
+      }
+     
       const number_likes = await this.likesService.countParentLikes(post.id);
       post.number_likes = number_likes.data.numberLikes;
       const is_liked_by_user = await this.likesService.isLikedByUser(post.id, localStorage.getItem('userId'))
