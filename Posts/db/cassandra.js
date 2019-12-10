@@ -26,7 +26,10 @@ const connexion = client.connect(function (err) {
 const mapper = new Mapper(client, mappingOptions);
 const postMapper = mapper.forModel('posts');
 
-
+const query = 'SELECT id, name, content, topic, creation_date, creator, state, comments  from posts where topic=? ALLOW FILTERING;';
+postMapper.findByTopic = postMapper.mapWithQuery(query, post => [ post.topic ]);
+const query2= 'SELECT DISTINCT topic from post;';
+postMapper.findAllTopics = postMapper.mapWithQuery(query2,post =>[post.topic] )
 module.exports={connexion,postMapper};
 
 

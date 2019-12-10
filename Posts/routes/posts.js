@@ -4,6 +4,21 @@ const Joi = require('joi');
   Endpoints: post
  */
 module.exports = [
+  {
+    method: 'GET',
+    path: '/topics/{topic}/posts',
+    handler: controllers.posts.getPostsByTopic,
+    options: {
+      cors : true,
+      description: 'Get all posts of one topics',
+      tags: ['api'], 
+      auth: 'jwt',
+      
+    },
+  },
+
+
+
   //GET /posts
   {
     method: 'GET',
