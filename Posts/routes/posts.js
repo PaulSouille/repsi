@@ -13,10 +13,30 @@ module.exports = [
       description: 'Get all posts of one topics',
       tags: ['api'], 
       auth: 'jwt',
+      validate:{
+        params:{
+          topic:Joi.string().required()
+        }
+      },
          
     },
   },
-
+  {
+    method: 'GET',
+    path: '/posts/users/{creator}/posts',
+    handler: controllers.posts.getPostsByUser,
+    options: {
+      cors : true,
+      description: 'Get all posts of one user',
+      tags: ['api'], 
+      auth: 'jwt', 
+      validate:{
+        params:{
+          creator:Joi.string().guid().required()
+        }
+      }        
+    },
+  },
 
 
   //GET /posts
