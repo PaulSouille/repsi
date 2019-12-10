@@ -30,7 +30,7 @@ module.exports = {
 	 */
 	post: async(request,reply)=>{
 		
-		const post = { ...request.payload  };
+		const post = { ...request.payload, id:Uuid.random()  };
 		const result= await cassandraPost.postMapper.insert(post).then(function() {
 			return post;
 		}).catch(function(error){

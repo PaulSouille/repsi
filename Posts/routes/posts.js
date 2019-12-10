@@ -45,7 +45,6 @@ module.exports = [
       auth: 'jwt',
       validate:{
         payload:{
-          id:Joi.string().guid().required(),
           name:Joi.string().required(),
           creation_date:Joi.date().required(),
           deleted_date:Joi.date(),
