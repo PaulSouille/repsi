@@ -29,8 +29,9 @@ module.exports = {
 		// result: Post
 		const result= await cassandraPost.postMapper.get({id:request.params.postId}).then(function(value) {
 			return value;
+		}).catch(function(error){
+			console.error(error)
 		});
-
 		return result.comments.filter((comment) => comment.id ==request.query.id);
 	},
 	/*
