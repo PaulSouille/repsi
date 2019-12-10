@@ -1,12 +1,12 @@
 # rEpsi.Posts
-Posts is an API for dealing with rEpsi.Front.
-Posts get endpoints of posts && comments.
-On these endpoints a CRUD services are enable. 
+Posts is micro service of rEpsi wich propose an API for dealing with rEpsi.Front.
+This API  contains posts && comments endpoints.
+On these endpoints a CRUD services are enable.  
 # Getting Started
 
 ## Prerequisites
  A package manager # NPM 
- NodeJS 
+ NodeJS 10.16.3
  Docker image with Cassandra you can pull our image [here](http://link)
  Docker with a kubernetes && auth0  you can pull our image [here]()
 ## Installing

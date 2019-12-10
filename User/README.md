@@ -2,39 +2,12 @@
 User is micro-service of rEpsi wich propose an API for dealing with rEpsi.Front.
 This API contains  user's endpoints .
 On these endpoints a CRUD services are enable. 
-
 # Getting Started
 
 ## Prerequisites
- Ruby version 2.5.7
+ GO version 1.13.4
  Docker image with Cassandra you can pull our image [here](http://link)
  Docker with a kubernetes && auth0  you can pull our image [here]()
- Server with S3 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-
 ## Installing
 
 1. Clone the project
@@ -59,13 +32,8 @@ Things you may want to cover:
 ## Usage
 To see the documentation of the API you can acces of the swagger:  host/documentation.
 
-In order to generate the documentation : 
-rake rswag:specs:swaggerize
- ( files to update in /spec/integration/)
-
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 Please make sure to update tests as appropriate.
  
-
