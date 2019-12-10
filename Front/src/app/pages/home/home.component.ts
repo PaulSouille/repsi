@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
-import { faLink, faShare, faSave, faCommentAlt, faArrowUp, faArrowDown, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import { faLink, faShare, faSave, faCommentAlt, faArrowUp, faArrowDown, faThumbsUp, faThumbsDown, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { faReddit } from '@fortawesome/free-brands-svg-icons';
 import { PostsService } from 'src/app/posts/posts.service';
 import { Post } from 'src/app/posts/posts';
@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
   faReddit = faReddit;
   faShare = faShare;
   faSave = faSave;
+  faExternalLinkAlt = faExternalLinkAlt;
   faCommentAlt = faCommentAlt;
   faArrowUp = faArrowUp;
   faArrowDown = faArrowDown;
