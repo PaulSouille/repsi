@@ -23,6 +23,16 @@ module.exports = {
 		});
 		return result;
 	},
+	
+	getPostsByUser: async (request, reply)=> {
+
+		const result = await cassandraPost.postMapper.findByUser({creator: Uuid.fromString(request.params.creator)}).then(function(value){
+			return value["_rs"]["rows"];
+		}).catch(function(error){
+			console.error(error)
+		});
+		return result;
+	},
 	get: async (request,reply) => {
 
 		const result= await cassandraPost.postMapper.get({id:request.query.id}).then(function(value) {
