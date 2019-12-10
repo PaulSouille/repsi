@@ -8,6 +8,8 @@ import { LikesService } from 'src/app/likes/likes.service';
 
 import { UsersService } from 'src/app/users/users.service';
 import { Comment } from 'src/app/posts/posts';
+import { MatDialog } from '@angular/material';
+import { AddPostDialog } from 'src/app/posts/add-post/add-post.dialog';
 
 @Component({
   selector: 'app-home',
@@ -25,13 +27,15 @@ export class HomeComponent implements OnInit {
   faThumbsUp = faThumbsUp;
   faThumbsDown = faThumbsDown;
   isAuth: boolean;
-  isLoading: boolean = false;
+  isLoading: boolean = true;;
+  private content: string;
   private posts: Post[];
 
   constructor(public auth: AuthService,
             public postsService: PostsService,
             public likesService: LikesService,
-            public userService: UsersService) {}
+            public userService: UsersService,
+            public dialog: MatDialog) {}
 
   async ngOnInit() {
     this.isAuth = await this.auth.isAuthenticated$.toPromise();
@@ -40,9 +44,21 @@ export class HomeComponent implements OnInit {
         const user = await this.userService.getUserByEmail(profile.email)
         localStorage.setItem('userId', user.uuid);
       });
-      console.log(localStorage.getItem('userId'));
-      this.loadPost();
-    }
+      await this.loadPost2();
+      console.log('test');
+      this.isLoading = false;
+        }
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(AddPostDialog, {
+      width: '250px',
+      data: {content: this.content}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.content = result;
+    });
   }
 
   hideComments($event){
@@ -69,26 +85,31 @@ export class HomeComponent implements OnInit {
       let comment_add = $event.target.closest('.add_comment');
       let textarea = comment_add.getElementsByClassName('add_comment_content')[0];
       this.postsService.addComment(postId,localStorage.getItem('userId'),textarea.value);
-      this.loadPost();
-  }
+      await this.loadPost2();
+      this.isLoading= false;
 
+    }
   async addLike(postId){
     this.likesService.addLike(postId, localStorage.getItem('userId'));
-    this.loadPost();
-  }
+    await this.loadPost2();
+    this.isLoading= false;
+
+    }
 
   async deleteLike(postId){
     this.likesService.removeLike(postId, localStorage.getItem('userId'));
-    this.loadPost();
+    await this.loadPost2();
+    this.isLoading= false;
 
   }
 
   async loadPost(){
     this.isLoading = true;
     this.posts = await this.postsService.findPosts();
-    this.posts.map(async (post: Post, i)=>{
+    this.posts.map(async (post: Post)=>{
       post.comments.map(async (comment: Comment)=>{
         comment.creator_user = await this.userService.getUserById(comment.creator);
+        console.log(comment.creator_user);
         const number_likes = await this.likesService.countParentLikes(comment.id);
         comment.number_likes = number_likes.data.numberLikes;
         comment.post_id = post.id;
@@ -101,10 +122,36 @@ export class HomeComponent implements OnInit {
       const is_liked_by_user = await this.likesService.isLikedByUser(post.id, localStorage.getItem('userId'))
       post.is_liked_by_user = is_liked_by_user.data.isLikedByUser;
       post.creator_user = await this.userService.getUserById(post.creator);
-      if(i==this.posts.length-1){
-        this.isLoading = false;
-      }
-      
+
     })
   }
+
+  async loadPost2 ()  {
+    this.isLoading = true;
+    this.posts = await this.postsService.findPosts();
+
+    await Promise.all(this.posts.map(async (post:Post) => {
+      this.posts.map(async (post: Post)=>{
+        await Promise.all(post.comments.map(async (comment:Comment) => {
+          comment.creator_user = await this.userService.getUserById(comment.creator);
+          console.log(comment.creator_user);
+          const number_likes = await this.likesService.countParentLikes(comment.id);
+          comment.number_likes = number_likes.data.numberLikes;
+          comment.post_id = post.id;
+          const is_liked_by_user = await this.likesService.isLikedByUser(comment.id, localStorage.getItem('userId'))
+          comment.is_liked_by_user = is_liked_by_user.data.isLikedByUser;
+          comment.creator_user = await this.userService.getUserById(comment.creator);
+        }))
+        const number_likes = await this.likesService.countParentLikes(post.id);
+        post.number_likes = number_likes.data.numberLikes;
+        const is_liked_by_user = await this.likesService.isLikedByUser(post.id, localStorage.getItem('userId'))
+        post.is_liked_by_user = is_liked_by_user.data.isLikedByUser;
+        post.creator_user = await this.userService.getUserById(post.creator);
+  
+      })
+    }));
+  }
+
+
+
 }

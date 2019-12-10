@@ -4,7 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HighlightModule } from 'ngx-highlightjs';
 import json from 'highlight.js/lib/languages/json';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {MatButtonModule, MatCardModule, MatSpinner, MatProgressSpinnerModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatSpinner, MatProgressSpinnerModule, MatDialogModule} from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,17 +18,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PostsComponent } from './posts/posts.component';
 import { UsersComponent } from './users/users.component';
 import { LikesComponent } from './likes/likes.component';
-import { AddPostComponent } from './posts/add-post/add-post.component';
 import { PostsService } from './posts/posts.service';
 import { LikesService } from './likes/likes.service';
 import { UsersService } from './users/users.service';
 import { StorageServiceModule } from 'ngx-webstorage-service';
+import { AddPostDialog } from './posts/add-post/add-post.dialog';
 
 export function hljsLanguages() {
   return [{ name: 'json', func: json }];
 }
 
 @NgModule({
+  entryComponents:[
+    AddPostDialog
+  ],
+  exports:[
+    AddPostDialog
+  ],
   declarations: [
     AppComponent,
     HomeComponent,
@@ -39,7 +45,7 @@ export function hljsLanguages() {
     PostsComponent,
     UsersComponent,
     LikesComponent,
-    AddPostComponent,
+    AddPostDialog
   ],
   imports: [
     BrowserModule,
@@ -55,7 +61,8 @@ export function hljsLanguages() {
     BrowserAnimationsModule,
     MatCardModule,
     StorageServiceModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule
   ],
   providers: [
     PostsService,
