@@ -43,8 +43,8 @@ const server = new Hapi.Server({
   routes: {cors: {origin: process.env.frontUrl.split(',')} }
 });
 
-
 const swaggerOptions = {
+  documentationPath:'/posts/documentation',
   info: {
     title: 'Documentation API',
     version: Pack.version,
@@ -57,7 +57,6 @@ const swaggerOptions = {
     }
   }
 };
-
 
 var initDb = function (cb) {
   cb();
