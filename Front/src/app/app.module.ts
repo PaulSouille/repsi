@@ -4,7 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HighlightModule } from 'ngx-highlightjs';
 import json from 'highlight.js/lib/languages/json';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {MatButtonModule, MatCardModule, MatSpinner, MatProgressSpinnerModule, MatDialogModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatSpinner, MatProgressSpinnerModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatOptionModule, MatDatepickerModule, MatNativeDateModule} from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +24,7 @@ import { LikesService } from './likes/likes.service';
 import { UsersService } from './users/users.service';
 import { StorageServiceModule } from 'ngx-webstorage-service';
 import { AddPostDialog } from './posts/add-post/add-post.dialog';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 export function hljsLanguages() {
   return [{ name: 'json', func: json }];
@@ -64,12 +65,19 @@ export function hljsLanguages() {
     MatCardModule,
     StorageServiceModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     PostsService,
     LikesService,
-    UsersService
+    UsersService,
   ],
   bootstrap: [AppComponent]
 })

@@ -1,1 +1,37 @@
-<p>add-post works!</p>
+<div [formGroup]="postForm" (submit)="addPost()">
+
+  <p>
+    <mat-form-field appearance="standard">
+      <mat-label>Nom du post</mat-label>
+      <input formControlName="name" matInput >
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field
+    [hideRequiredMarker]="options.value.hideRequired"
+    [floatLabel]="options.value.floatLabel">
+  <mat-select formControlName="statut" required>
+    <mat-option value="private">Privé</mat-option>
+    <mat-option value="public">Public</mat-option>
+  </mat-select>
+  <mat-label > <i> label</i></mat-label>
+</mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field appearance="standard">
+      <mat-label>Topic</mat-label>
+      <input formControlName="topic" matInput >
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field appearance="standard">
+      <mat-label>Contenu</mat-label>
+      <textarea formControlName="content" matInput ></textarea>
+    </mat-form-field>
+  </p>
+  <button (click)="addPost()">Poster</button>
+
+</div>

@@ -38,6 +38,7 @@ export class HomeComponent implements OnInit {
             public dialog: MatDialog) {}
 
   async ngOnInit() {
+    this.isLoading = true;
     this.isAuth = await this.auth.isAuthenticated$.toPromise();
     if(this.isAuth){
       this.auth.userProfile$.subscribe(async (profile)=>{
@@ -46,7 +47,6 @@ export class HomeComponent implements OnInit {
       });
       await this.loadPost();
       console.log('test');
-      this.isLoading = false;
         }
   }
 
@@ -85,48 +85,26 @@ export class HomeComponent implements OnInit {
       let textarea = comment_add.getElementsByClassName('add_comment_content')[0];
       this.postsService.addComment(postId,localStorage.getItem('userId'),textarea.value);
       await this.loadPost();
-      this.isLoading= false;
 
     }
   async addLike(postId){
     this.likesService.addLike(postId, localStorage.getItem('userId'));
     await this.loadPost();
-    this.isLoading= false;
 
     }
 
   async deleteLike(postId){
     this.likesService.removeLike(postId, localStorage.getItem('userId'));
     await this.loadPost();
-    this.isLoading= false;
 
   }
 
   async loadPost(){
     this.isLoading = true;
     this.posts = await this.postsService.findPosts();
-    this.posts.map(async (post: Post, i)=>{
-      if(post.comments != null){
-        post.comments.map(async (comment: Comment)=>{
-          comment.creator_user = await this.userService.getUserById(comment.creator);
-          const number_likes = await this.likesService.countParentLikes(comment.id);
-          comment.number_likes = number_likes.data.numberLikes;
-          comment.post_id = post.id;
-          const is_liked_by_user = await this.likesService.isLikedByUser(comment.id, localStorage.getItem('userId'))
-          comment.is_liked_by_user = is_liked_by_user.data.isLikedByUser;
-          comment.creator_user = await this.userService.getUserById(comment.creator);
-        })
-      }
-     
-      const number_likes = await this.likesService.countParentLikes(post.id);
-      post.number_likes = number_likes.data.numberLikes;
-      const is_liked_by_user = await this.likesService.isLikedByUser(post.id, localStorage.getItem('userId'))
-      post.is_liked_by_user = is_liked_by_user.data.isLikedByUser;
-      post.creator_user = await this.userService.getUserById(post.creator);
-
-    })
+    this.posts = this.postsService.fillPosts(this.posts)
+    this.isLoading = false;
   }
-
   
 
 

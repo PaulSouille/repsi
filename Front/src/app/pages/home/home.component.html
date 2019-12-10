@@ -3,7 +3,7 @@
 <div class="container" *ngIf="isLoading">
   <mat-spinner></mat-spinner>
 </div>
-<div class="container" *ngIf="isAuth && !isLoading; else loggedOut">
+<div class="container" *ngIf="isAuth && !isLoading && posts.length>0; else loggedOut">
   <button class="add_post_button" (click)="openDialog()" mat-raised-button color="primary">Ajouter un post</button>
   
   <div class="col-md-3 topic_side">
