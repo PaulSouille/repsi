@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
+import { TopicComponent } from './pages/topic/topic.component';
+
 import { AuthGuard } from './auth/auth.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -15,6 +17,11 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'r',
+    component: TopicComponent,
     pathMatch: 'full'
   }
 ];
