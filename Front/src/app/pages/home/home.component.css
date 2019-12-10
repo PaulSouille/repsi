@@ -60,9 +60,9 @@
     border: 1px solid gray;
     border-radius: 5px;
 
-    position: absolute;
-    margin-left: 50%;
-    margin-top: -35%;
+    position: fixed;
+    margin-left: 40%;
+    top: 30%;
   }
 
   .topic_row {

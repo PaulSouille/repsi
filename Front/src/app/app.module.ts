@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { TopicComponent } from './pages/topic/topic.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LoadingComponent } from './components/loading/loading.component';
@@ -45,7 +46,8 @@ export function hljsLanguages() {
     PostsComponent,
     UsersComponent,
     LikesComponent,
-    AddPostDialog
+    AddPostDialog,
+    TopicComponent,
   ],
   imports: [
     BrowserModule,
