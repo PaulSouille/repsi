@@ -16,6 +16,11 @@ export class PostsService  {
     return this.http.get<Post[]>('posts').toPromise();
   }
 
+  
+  findPost(post_id): Promise<Post> {
+    return this.http.get<Post>('posts?id='+post_id).toPromise();
+  }
+
   addComment(post_id, userId, content): void{
     var date = new Date();
     this.http.post(`posts/`+post_id+`/comments/`,{

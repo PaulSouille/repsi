@@ -29,7 +29,7 @@
    </div>
 
   <div class="next-steps my-5">
-     <div class="row" *ngFor="let post of posts">
+     <div class="row row_width" *ngFor="let post of posts">
         <div class="col-md-8 mb-2 topic">
            <h6 class="mb-3">
               <a href="">
@@ -59,6 +59,11 @@
               <span *ngIf="!post.is_liked_by_user" class="footer_comments">
               <fa-icon (click)="addLike(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
               </span>
+              <a href="/post/{{ post.id }}">
+               <span class="footer_comments">
+                  <fa-icon [icon]="faExternalLinkAlt"></fa-icon> {{post.number_likes}}
+                  </span>
+             </a>
            </div>
            <div class="display hidden" comments="hidden">
               <div class="comment" *ngFor="let comment of post.comments">

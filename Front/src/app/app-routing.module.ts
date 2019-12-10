@@ -7,6 +7,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './auth/interceptor.service';
+import { PostsComponent } from './posts/posts.component';
 
 const routes: Routes = [
   {
@@ -20,8 +21,13 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'r',
+    path: 'r/:topic',
     component: TopicComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'post/:post_id',
+    component: PostsComponent,
     pathMatch: 'full'
   }
 ];

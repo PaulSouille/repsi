@@ -199,3 +199,7 @@ mat-spinner{
   cursor: pointer;
 }
 
+.row_width{
+  width: 100%;
+  display: inherit;
+}

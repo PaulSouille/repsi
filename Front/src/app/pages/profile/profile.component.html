@@ -1,20 +1,22 @@
 <div class="container mt-5" *ngIf="auth.userProfile$ | async as profile">
-  <div
-    class="row align-items-center profile-header mb-5 text-center text-md-left"
-  >
-    <div class="col-md-2">
-      <img
-        [src]="profile.picture"
-        class="rounded-circle img-fluid profile-picture mb-3 mb-md-0"
-      />
-    </div>
-    <div class="col-md">
-      <h2>{{ profile.name }}</h2>
-      <p class="lead text-muted">{{ profile.email }}</p>
-    </div>
-  </div>
+  <div class="container emp-profile">
+    <form method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    <img src="{{ profile.picture }}" alt=""/>
+                </div>  
+            </div>
+            <div class="col-md-6">
+                <div class="profile-head">
+                            <h5>
+                                {{ profile.email }}
+                            </h5>
 
-  <div class="row" *ngIf="profileJson">
-    <pre class="rounded"><code class="json" [highlight]="profileJson"></code></pre>
-  </div>
+                            <p class="proile-rating">Dernière visite : <span style="font-size: 12px">{{ profile.updated_at | date:'medium' }}</span></p>
+                </div>
+            </div>
+        </div>
+    </form>           
+</div>
 </div>
