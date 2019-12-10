@@ -56,8 +56,9 @@ export class HomeComponent implements OnInit {
       data: {content: this.content}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       this.content = result;
+      await this.loadPost();
     });
   }
 
