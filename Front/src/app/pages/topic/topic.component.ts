@@ -38,8 +38,44 @@ export class TopicComponent implements OnInit {
 
   async loadPost(){
     this.isLoading = true;
-    this.posts = await this.postsService.findPosts();
-    
+    this.posts = await this.postsService.findPostsByTopic(this.route.snapshot.params.topic);
+    this.posts = this.postsService.fillPosts(this.posts)
   }
 
+  hideComments($event){
+    let main_div = $event.target.closest(".topic");
+    let comment_div = main_div.getElementsByClassName("display")[0];
+    let display = comment_div.getAttribute("comments");
+
+    //Hide or show comments
+    if(display == "show"){
+      comment_div.setAttribute("comments","hidden")
+      comment_div.classList.remove('show')
+      comment_div.classList.add('hidden')
+      
+    }else{
+      comment_div.setAttribute("comments","show")
+      comment_div.classList.remove('hidden')
+      comment_div.classList.add('show')  
+    }
+
+  }
+
+  async addComment(postId,$event){
+    let comment_add = $event.target.closest('.add_comment');
+    let textarea = comment_add.getElementsByClassName('add_comment_content')[0];
+    this.postsService.addComment(postId,localStorage.getItem('userId'),textarea.value);
+    await this.loadPost();
+
+  }
+  async addLike(postId){
+    this.likesService.addLike(postId, localStorage.getItem('userId'));
+    await this.loadPost();
+  }
+
+  async deleteLike(postId){
+    this.likesService.removeLike(postId, localStorage.getItem('userId'));
+    await this.loadPost();
+
+  }
 }

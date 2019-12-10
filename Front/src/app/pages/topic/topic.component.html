@@ -1,3 +1,63 @@
 <div class="container mt-5" *ngIf="auth.userProfile$ | async as profile">
-  insane
+  <div class="next-steps my-5">
+    <div class="row row_width" *ngFor="let post of posts">
+       <div class="col-md-8 mb-2 topic">
+          <h6 class="mb-3">
+             <a href="">
+                r/{{post.topic}}
+             </a>
+             <span class="posted_by" >
+             - Posted by <a href="">u/{{post.creator_user.firstname}} {{post.creator_user.lastname}}</a> {{post.creation_date}}
+
+             </span>
+          </h6>
+          <p>
+             {{post.content}}
+          </p>
+          <div class="footer_topic">
+             <span *ngIf="post.comments" class="footer_comments" (click)="hideComments($event)">
+             <fa-icon [icon]="faCommentAlt"></fa-icon>
+             {{post.comments.length}} Comments
+             </span>
+             <span *ngIf="!post.comments" class="footer_comments" (click)="hideComments($event)">
+                <fa-icon [icon]="faCommentAlt"></fa-icon>
+                0 Comments
+             </span>
+             <span *ngIf="post.is_liked_by_user" class="footer_comments">
+             <fa-icon class="liked" (click)="deleteLike(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
+             </span>
+             <span *ngIf="!post.is_liked_by_user" class="footer_comments">
+             <fa-icon (click)="addLike(post.id)" [icon]="faThumbsUp"></fa-icon> {{post.number_likes}}
+             </span>
+             <a href="/post/{{ post.id }}">
+              <span class="footer_comments">
+                 <fa-icon [icon]="faExternalLinkAlt"></fa-icon> {{post.number_likes}}
+                 </span>
+            </a>
+          </div>
+          <div class="display hidden" comments="hidden">
+             <div class="comment" *ngFor="let comment of post.comments">
+                <div class="comment_header">
+                   <span class="comment_info">{{comment.creator_user.firstname}} {{comment.creator_user.lastname}}  {{comment.number_likes}} points - {{comment.creation_date}} </span>
+                   <span *ngIf="comment.is_liked_by_user" class="footer_comments">
+                   <fa-icon class="liked" (click)="deleteLike(comment.id)" [icon]="faArrowUp"></fa-icon>
+                   </span>
+                   <span *ngIf="!comment.is_liked_by_user" class="footer_comments">
+                   <fa-icon (click)="addLike(comment.id)" [icon]="faArrowUp"></fa-icon>
+                   </span>
+                </div>
+                <div class="comment_content">
+                   <span>{{comment.content}}</span>
+                </div>
+
+             </div>
+             <div class="add_comment">
+                <textarea class="add_comment_content" rows="4"></textarea>
+                <button class="comment_btn" mat-raised-button color="primary" (click)="addComment(post.id,$event)">Commenter</button>
+             </div>
+          </div>
+       </div>
+    </div>
+    
+ </div>
 </div>
