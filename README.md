@@ -1,7 +1,7 @@
 <p align="center">
   <a href="http://kube.paulsouille.fr" target="blank"><img src="https://i.imgur.com/MuvHYIz.png" width="50" alt="repsi Logo" /></a>
-
 </p>
+
 # repsi
 A  begin of social network. Welcome to rEpsi to share your content on topics. It is a project with micro-service architecture.
 
