@@ -1,8 +1,8 @@
 <p align="center">
-  <a href="https://www.gorillatoolkit.org/pkg/mux" target="blank"><img src="https://miro.medium.com/max/400/1*5QBUnkCjT_m0amIHeweqGg.png" width="100" alt="gorilla Logo" /></a>
+  <a href="https://www.gorillatoolkit.org/pkg/mux" target="blank"><img src="https://miro.medium.com/max/400/1*5QBUnkCjT_m0amIHeweqGg.png" width="50" alt="gorilla Logo" /></a>
  <a href="https://godoc.org/github.com/codegangsta/negroni" target="blank"><h3>Negroni</h3></a>
- <a href="https://godoc.org/github.com/dgrijalva/jwt-go" target="blank"><img src="https://cdn.ednsquare.com/s/*/a5f181f3-bb0e-4a25-8847-f973a266bd90.png" width="100" alt="jwtGo Logo" /></a>
- <a href="https://godoc.org/github.com/gocql/gocql" target="blank"><img src="https://gocql.github.io/gocql.png" width="100" alt="GoCQL Logo" /></a> 
+ <a href="https://godoc.org/github.com/dgrijalva/jwt-go" target="blank"><img src="https://cdn.ednsquare.com/s/*/a5f181f3-bb0e-4a25-8847-f973a266bd90.png" width="50" alt="jwtGo Logo" /></a>
+ <a href="https://godoc.org/github.com/gocql/gocql" target="blank"><img src="https://gocql.github.io/gocql.png" width="50" alt="GoCQL Logo" /></a> 
 </p>
 
 
