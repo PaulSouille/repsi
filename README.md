@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="http://kube.paulsouille.fr" target="blank"><img src="https://imgur.com/MuvHYIz" width="50" alt="repsi Logo" /></a>
+  <a href="http://kube.paulsouille.fr" target="blank"><img src="https://i.imgur.com/MuvHYIz.png" width="50" alt="repsi Logo" /></a>
 
 </p>
 # repsi
