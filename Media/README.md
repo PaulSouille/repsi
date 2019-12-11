@@ -16,13 +16,10 @@ On these endpoints a CRUD services are enable.
 1. Clone the project
 ```git clone https://github.com/PaulSouille/repsi.git```
 2. Go on the folder Media
-3. Initiate your environment variable 
-* CASSANDRA1_ADDR: server host of database
-* CASSANDRA1_PORT: server port of database 
-* CASSANDRA1_PASS: password of your database
-* CERT_AUTH0: certifications of auth0
-* URL_AUTH0: domain of your auth0 (example: dev-1x2jzvjx.eu.auth0.com)
-* AUTH0_AUDIENCE: audience of auth0 (example: dns of your deployement server)
+3. Initiate your environment variable
+* ENV['s3_region']
+* ENV['s3_bucket_name']
+* ENV['s3_default_acl']
 4. Install the package
 ```gem install  bundler ```
 ```bundle install```
