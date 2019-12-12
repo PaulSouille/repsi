@@ -16,7 +16,7 @@ A  begin of social network. Welcome to rEpsi to share your content on topics. It
 ## Users      
   This micro-servie propose a service to hundle users with CRUD operations.
   
-    You can go to swagger of the api [here](http://api.paulsouille.fr/users/documentation)
+   You can go to swagger of the api [here](http://api.paulsouille.fr/users/documentation)
 ## Posts      
   This micro-servie propose a service to hundle posts with CRUD operations.
   
@@ -24,7 +24,7 @@ A  begin of social network. Welcome to rEpsi to share your content on topics. It
 ## Likes      
   This micro-servie propose a service to hundle likes with CRD operations.
   
-    You can go to swagger of the api [here](http://api.paulsouille.fr/likes/documentation)
+   You can go to swagger of the api [here](http://api.paulsouille.fr/likes/documentation)
 
 # Front
   This repository contains the front of the application. 
