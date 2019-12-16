@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
   faThumbsUp = faThumbsUp;
   faThumbsDown = faThumbsDown;
   isAuth: boolean;
-  isLoading: boolean = true;;
+  isLoading: boolean;
   private content: string;
   private posts: Post[];
 
@@ -39,7 +39,6 @@ export class HomeComponent implements OnInit {
             public dialog: MatDialog) {}
 
   async ngOnInit() {
-    this.isLoading = true;
     this.isAuth = await this.auth.isAuthenticated$.toPromise();
     if(this.isAuth){
       this.auth.userProfile$.subscribe(async (profile)=>{
@@ -57,8 +56,9 @@ export class HomeComponent implements OnInit {
       data: {content: this.content}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       this.content = result;
+      await this.loadPost();
     });
   }
 

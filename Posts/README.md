@@ -1,3 +1,8 @@
+<p align="center">
+  <a href="https://hapi.dev/" target="blank"><img src="https://raw.githubusercontent.com/hapijs/assets/master/images/hapi.png" width="320" alt="Hapi Logo" /></a>
+ <a href="https://docs.datastax.com/en/developer/nodejs-driver/" target="blank"><img src="https://academy.datastax.com/sites/default/files/1200X630_Academy_logo-01.png" width="320" alt="Datastax Logo" /></a>
+</p>
+
 # rEpsi.Posts
 Posts is micro service of rEpsi wich propose an API for dealing with rEpsi.Front.
 This API  contains posts && comments endpoints.

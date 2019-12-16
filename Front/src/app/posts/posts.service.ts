@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
-import { Post, Comment } from './posts';
+import { Post, Comment, PostData } from './posts';
 import { v4 as uuid } from 'uuid';
 import { UsersService } from '../users/users.service';
 import { LikesService } from '../likes/likes.service';
@@ -40,6 +40,10 @@ export class PostsService  {
         creation_date: date.toString()
     }).toPromise();
     
+  }
+
+  addPost(post: PostData): Promise<Post>{
+    return this.http.post<Post>(`posts/`,post).toPromise();
   }
 
   fillPosts(posts: Post[]): Post[]{

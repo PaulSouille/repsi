@@ -29,4 +29,9 @@ export interface Comment{
 
 export interface PostData{
     content: string;
+    creation_date: string;
+    creator: string;
+    state: string;
+    topic: string;
+    name: string;
 }

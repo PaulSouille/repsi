@@ -24,7 +24,7 @@ export class InterceptorService implements HttpInterceptor {
     return this.auth.getTokenSilently$().pipe(
       mergeMap(token => {
         const tokenReq = req.clone({
-          url: `${environment.auth_audience}/${req.url}`,
+          url: `https://api.paulsouille.fr/${req.url}`,
           setHeaders: { Authorization: `Bearer ${token}` }
         });
         return next.handle(tokenReq);
